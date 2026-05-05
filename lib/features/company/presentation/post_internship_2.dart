@@ -8,8 +8,8 @@ import '../../../core/widgets/buttons/filled_btn.dart';
 import '../../../core/widgets/text/auth_subtitel.dart';
 import '../../../core/widgets/input/input_field.dart';
 
-class PostInternship1 extends StatelessWidget {
-  const PostInternship1({super.key});
+class PostInternship2 extends StatelessWidget {
+  const PostInternship2({super.key});
 
   void _onNextPressed() {
     print("Next");
@@ -29,24 +29,21 @@ class PostInternship1 extends StatelessWidget {
             SizedBox(height: 35),
             Header(),
             SizedBox(height: screenHeight * 0.03),
-            AuthSubtitle(text: 'Enter Internship Info', fontSize: 24),
-            SizedBox(height: screenHeight * 0.007),
             InputField(
-              label: 'Internship Title',
-              hintText: 'Enter internship title',
+              label: 'Internship Description',
+              hintText: 'Enter internship description',
+              height: 100,
             ),
             SizedBox(height: 15),
-            InputField(label: 'Company Name', hintText: 'Enter company name'),
+            InputField(label: 'Responsibilities', hintText: ''),
             SizedBox(height: 15),
-            InputField(label: 'Location', hintText: 'Enter your location'),
+            InputField(label: 'Duration', hintText: '6 months'),
+
             SizedBox(height: 15),
-            InputField(
-              label: 'Internship Type',
-              hintText: 'Enter internship type',
-            ),
+            InputField(label: 'Compensation', hintText: 'unpaid'),
             SizedBox(height: 30),
 
-            InputField(label: 'Required skills', hintText: 'React, js, ..'),
+            InputField(label: 'Application Deadline', hintText: '23/03/26'),
 
             SizedBox(height: 30),
             Padding(
@@ -61,9 +58,9 @@ class PostInternship1 extends StatelessWidget {
                   ),
                   SizedBox(width: 10),
                   FilledBtn(
-                    text: 'Next',
+                    text: 'Post Internship',
                     onPressed: _onNextPressed,
-                    width: 130,
+                    width: 160,
                   ),
                 ],
               ),

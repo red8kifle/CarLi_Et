@@ -4,8 +4,15 @@ class InputField extends StatelessWidget {
   final String label;
   final String hintText;
   final double width;
+  final double? height;
 
-  const InputField({super.key, required this.label, required this.hintText, this.width = 0.85});
+  const InputField({
+    super.key,
+    required this.label,
+    required this.hintText,
+    this.width = 0.85,
+    this.height,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +22,7 @@ class InputField extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // LABEL ABOVE INPUT
+            // LABEL
             Text(
               label,
               style: const TextStyle(
@@ -27,35 +34,37 @@ class InputField extends StatelessWidget {
 
             const SizedBox(height: 6),
 
-            // TEXT FIELD
-            TextField(
-              decoration: InputDecoration(
-                hintText: hintText,
-                hintStyle: TextStyle(color: Colors.grey.shade500),
+            // INPUT
+            SizedBox(
+              height: height,
+              child: TextField(
+                expands: height != null,
+                maxLines: height == null ? 1 : null,
+                decoration: InputDecoration(
+                  hintText: hintText,
+                  hintStyle: TextStyle(color: Colors.grey.shade500),
 
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 14,
-                ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 14,
+                  ),
 
-                // default border
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: Colors.grey.shade300),
-                ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey.shade300),
+                  ),
 
-                // when active
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: Colors.grey.shade300),
-                ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey.shade300),
+                  ),
 
-                // when focused on
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(
-                    color: Color(0xFF087E8B),
-                    width: 2,
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(
+                      color: Color(0xFF087E8B),
+                      width: 2,
+                    ),
                   ),
                 ),
               ),

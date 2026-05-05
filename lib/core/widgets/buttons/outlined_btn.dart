@@ -3,12 +3,18 @@ import 'package:flutter/material.dart';
 class OutlinedBtn extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
+  final double? width;
 
-  const OutlinedBtn({super.key, required this.text, required this.onPressed});
+  const OutlinedBtn({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    this.width,
+  });
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.5, // 55% of screen
+      width: width ?? MediaQuery.of(context).size.width * 0.5, // 55% of screen
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(

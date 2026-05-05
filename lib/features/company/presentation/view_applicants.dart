@@ -23,7 +23,7 @@ class ViewApplicants extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            // 🔽 Dropdown
+            //  Dropdown
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
@@ -50,7 +50,7 @@ class ViewApplicants extends StatelessWidget {
             //  List of Applicants
             Expanded(
               child: ListView.builder(
-                itemCount: 3,
+                itemCount: 4,
                 itemBuilder: (context, index) {
                   return ApplicantCard();
                 },
@@ -81,7 +81,6 @@ class ApplicantCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 👤 Avatar + Info row
           Row(
             children: [
               CircleAvatar(
@@ -119,7 +118,6 @@ class ApplicantCard extends StatelessWidget {
 
           const SizedBox(height: 12),
 
-          // 🔘 Button (now on new line)
           Align(
             alignment: Alignment.center,
             child: OutlinedButton.icon(
