@@ -32,9 +32,7 @@ class _StudentSignupState extends State<StudentSignup> {
     }
   }
 
-  void _onGoBackPressed(BuildContext context) {
-    context.pop();
-  }
+  
 
   @override
   Widget build(BuildContext context) {
