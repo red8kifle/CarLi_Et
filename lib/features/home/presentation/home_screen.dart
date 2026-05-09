@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../core/widgets/buttons/light_btn.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
 
-  void _onStudentPressed() {
-    print("Student Sign In");
-  }
-
-  void _onCompanyPressed() {
-    print("Company Sign In");
-  }
+   void _onStudentPressed(BuildContext context) {
+    context.pushNamed('student_signin');
+   }
+   void _onCompanyPressed(BuildContext context) {
+    context.pushNamed('company_signin');
+   }
 
   void _onGuestPressed() {
     print("Browse as Guest");
@@ -41,8 +41,8 @@ class Home extends StatelessWidget {
                 SizedBox(height: screenHeight * 0.1),
 
                 AuthButtons(
-                  onStudentPressed: _onStudentPressed,
-                  onCompanyPressed: _onCompanyPressed,
+                  onStudentPressed: () => _onStudentPressed(context),
+                  onCompanyPressed: () => _onCompanyPressed(context),
                 ),
 
                 const SizedBox(height: 30),
@@ -143,7 +143,6 @@ class AuthButtons extends StatelessWidget {
     );
   }
 }
-
 //_____________________________________________________________________________
 
 class GuestLink extends StatelessWidget {

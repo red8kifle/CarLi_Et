@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 
 import '../../../core/widgets/text/split_action_text.dart';
@@ -13,12 +14,12 @@ import '../../../core/widgets/text/action_text.dart';
 class StudentSignin extends StatelessWidget {
   const StudentSignin({super.key});
 
-  void _onLoginPressed() {
-    print("Student Sign In");
+  void _onLoginPressed(BuildContext context) {
+    context.goNamed("profile");
   }
 
-  void _onGoBackPressed() {
-    print("Student Sign In");
+  void _onGoBackPressed(BuildContext context) {
+    context.pop();
   }
 
   @override
@@ -42,9 +43,9 @@ class StudentSignin extends StatelessWidget {
             SizedBox(height: 10),
             ActionText(text: 'Forgot password?'),
             SizedBox(height: 40),
-            FilledBtn(text: 'Login', onPressed: _onLoginPressed),
+            FilledBtn(text: 'Login', onPressed: () => _onLoginPressed(context)),
             SizedBox(height: 10),
-            OutlinedBtn(text: 'Go Back', onPressed: _onGoBackPressed),
+            OutlinedBtn(text: 'Go Back', onPressed: () => _onGoBackPressed(context)),
             SizedBox(height: 30),
             SplitActionText(
               text: "If you don't have an account ",
