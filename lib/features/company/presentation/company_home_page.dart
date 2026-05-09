@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class CompanyHomePage extends StatelessWidget {
   const CompanyHomePage({super.key});
@@ -53,14 +53,10 @@ class CompanyHomePage extends StatelessWidget {
       body: Stack(
         children: [
           //TEAL BACKGROUND TOP ───────────────────────────
-          Container(
-            height: 200,
-            color: const Color(0xFF087E8B),
-          ),
+          Container(height: 200, color: const Color(0xFF087E8B)),
 
           Column(
             children: [
-
               //COMPANY INFO ────────────────────────────
               Padding(
                 padding: const EdgeInsets.only(
@@ -102,10 +98,7 @@ class CompanyHomePage extends StatelessWidget {
                         SizedBox(height: 4),
                         Text(
                           'Addis Ababa, Ethiopia',
-                          style: TextStyle(
-                            color: Colors.white70,
-                            fontSize: 13,
-                          ),
+                          style: TextStyle(color: Colors.white70, fontSize: 13),
                         ),
                       ],
                     ),
@@ -130,29 +123,21 @@ class CompanyHomePage extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-
                       _MenuButton(
                         icon: Icons.send_outlined,
                         label: 'Post Internship',
-                        onTap: () {},
+                        onTap: () => context.pushNamed('post_internship_1'),
                       ),
-
-                      const SizedBox(height: 16),
-
                       _MenuButton(
                         icon: Icons.person_outline,
                         label: 'View Applicants',
-                        onTap: () {},
+                        onTap: () => context.pushNamed('view_applicants'),
                       ),
-
-                      const SizedBox(height: 16),
-
                       _MenuButton(
                         icon: Icons.list_outlined,
                         label: 'View Internships',
-                        onTap: () {},
+                        onTap: () => context.pushNamed('view_internships'),
                       ),
-
                     ],
                   ),
                 ),
@@ -163,11 +148,7 @@ class CompanyHomePage extends StatelessWidget {
       ),
       //Bottom nav bar─────────────────────────
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(
-          left: 24,
-          right: 24,
-          bottom: 24,
-        ),
+        padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
         child: Container(
           height: 64,
           decoration: BoxDecoration(
@@ -184,7 +165,6 @@ class CompanyHomePage extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-
               // Left Icon
               IconButton(
                 icon: const Icon(
@@ -192,25 +172,25 @@ class CompanyHomePage extends StatelessWidget {
                   color: Colors.white,
                   size: 28,
                 ),
-                onPressed: () {},
+                onPressed: () => context.pushNamed('view_applicants'),
               ),
 
-              // Middle Icon 
-              Container(
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 2,
+              // Middle Icon
+              GestureDetector(
+                 onTap: () => context.pushNamed('company_home'),
+                child: Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.white, width: 2),
                   ),
-                ),
-                child: const Icon(
-                  Icons.home_outlined,
-                  color: Colors.white,
-                  size: 28,
+                  child: const Icon(
+                    Icons.home_outlined,
+                    color: Colors.white,
+                    size: 28,
+                  ),
                 ),
               ),
 
@@ -221,9 +201,8 @@ class CompanyHomePage extends StatelessWidget {
                   color: Colors.white,
                   size: 28,
                 ),
-                onPressed: () {},
+               onPressed: () => context.pushNamed('company_profile'),
               ),
-
             ],
           ),
         ),
@@ -249,17 +228,11 @@ class _MenuButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 20,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: Colors.grey.shade200,
-            width: 1,
-          ),
+          border: Border.all(color: Colors.grey.shade200, width: 1),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.07),
@@ -270,11 +243,7 @@ class _MenuButton extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(
-              icon,
-              color: const Color(0xFF087E8B),
-              size: 24,
-            ),
+            Icon(icon, color: const Color(0xFF087E8B), size: 24),
             const SizedBox(width: 16),
             Text(
               label,

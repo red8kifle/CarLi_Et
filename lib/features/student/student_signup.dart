@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../core/widgets/buttons/outlined_btn.dart';
 import '../../core/widgets/text/split_action_text.dart';
@@ -8,15 +9,31 @@ import '../../core/widgets/buttons/filled_btn.dart';
 import '../../core/widgets/text/auth_subtitel.dart';
 import '../../core/widgets/input/input_field.dart';
 
-class StudentSignup extends StatelessWidget {
+class StudentSignup extends StatefulWidget {
   const StudentSignup({super.key});
 
-  void _onCreateAccountPressed() {
-    print("Student Sign In");
+  @override
+  State<StudentSignup> createState() => _StudentSignupState();
+}
+
+class _StudentSignupState extends State<StudentSignup> {
+  bool _agreedToTerms = false;
+
+  void _onCreateAccountPressed(BuildContext context) {
+    if (_agreedToTerms) {
+      context.pushNamed('student_signin');
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please agree to Terms and Policy first'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
-  void _onGoBackPressed() {
-    print("Student Sign In");
+  void _onGoBackPressed(BuildContext context) {
+    context.pop();
   }
 
   @override
@@ -27,44 +44,85 @@ class StudentSignup extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 55),
-              Header(),
+              const SizedBox(height: 55),
+              const Header(),
               SizedBox(height: screenHeight * 0.03),
-              AuthSubtitle(text: 'Create a new account', fontSize: 24),
+              const AuthSubtitle(text: 'Create a new account', fontSize: 24),
               SizedBox(height: screenHeight * 0.007),
-              InputField(
+              const InputField(
                 label: 'First Name',
                 hintText: 'Enter your first name',
               ),
-              SizedBox(height: 15),
-              InputField(label: 'Last Name', hintText: 'Enter your last name'),
-              SizedBox(height: 15),
-              InputField(label: 'Email', hintText: 'Enter your email'),
-              SizedBox(height: 15),
-              InputField(label: 'Password', hintText: 'Enter your password'),
-              SizedBox(height: 15),
-              InputField(
+              const SizedBox(height: 15),
+              const InputField(
+                label: 'Last Name',
+                hintText: 'Enter your last name',
+              ),
+              const SizedBox(height: 15),
+              const InputField(label: 'Email', hintText: 'Enter your email'),
+              const SizedBox(height: 15),
+              const InputField(
+                label: 'Password',
+                hintText: 'Enter your password',
+              ),
+              const SizedBox(height: 15),
+              const InputField(
                 label: 'Re-enter your Password',
                 hintText: 'Re-enter your password',
               ),
-              SizedBox(height: 30),
-              SplitActionText(
-                text: "I agree with  ",
-                actionText: "Terms and policy",
+              const SizedBox(height: 30),
+
+              // ── CHECKBOX + TERMS ──────────────────────────
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Checkbox(
+                    value: _agreedToTerms,
+                    activeColor: const Color(0xFF087E8B),
+                    onChanged: (value) {
+                      setState(() {
+                        _agreedToTerms = value ?? false;
+                      });
+                    },
+                  ),
+                  GestureDetector(
+                    onTap: () => context.pushNamed('terms'),
+                    child: const SplitActionText(
+                      text: "I agree with  ",
+                      actionText: "Terms and policy",
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(height: 10),
+
+              const SizedBox(height: 10),
+
+              // ── CREATE ACCOUNT BUTTON ─────────────────────
               FilledBtn(
                 text: 'Create account',
-                onPressed: _onCreateAccountPressed,
+                onPressed: () => _onCreateAccountPressed(context),
               ),
-              SizedBox(height: 10),
-              OutlinedBtn(text: 'Go Back', onPressed: _onGoBackPressed),
-              SizedBox(height: 10),
-              SplitActionText(
-                text: "If you already have an account  ",
-                actionText: "Login",
+
+              const SizedBox(height: 10),
+
+              // ── GO BACK BUTTON ────────────────────────────
+              OutlinedBtn(
+                text: 'Go Back',
+                onPressed: () => context.pushNamed('home'),
               ),
-              SizedBox(height: 80),
+
+              const SizedBox(height: 10),
+
+              // ── LOGIN LINK ────────────────────────────────
+              GestureDetector(
+                onTap: () => context.pushNamed('student_signin'),
+                child: const SplitActionText(
+                  text: "If you already have an account  ",
+                  actionText: "Login",
+                ),
+              ),
+
+              const SizedBox(height: 80),
             ],
           ),
         ),
@@ -73,8 +131,7 @@ class StudentSignup extends StatelessWidget {
   }
 }
 
-//_____________________________________________
-
+//─────────────────────────────────────────────────────────────────
 class Header extends StatelessWidget {
   const Header({super.key});
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:go_router/go_router.dart';
 // shared widgets
 import '../../../core/widgets/buttons/outlined_btn.dart';
 import '../../../core/widgets/logo/carliet_logo.dart';
@@ -11,12 +11,12 @@ import '../../../core/widgets/input/input_field.dart';
 class PostInternship1 extends StatelessWidget {
   const PostInternship1({super.key});
 
-  void _onNextPressed() {
-    print("Next");
+  void _onNextPressed(BuildContext context) {
+    context.pushNamed('post_internship_2');
   }
 
-  void _onGoBackPressed() {
-    print("Go Back");
+  void _onGoBackPressed(BuildContext context) {
+    context.pop();
   }
 
   @override
@@ -46,9 +46,9 @@ class PostInternship1 extends StatelessWidget {
                 hintText: 'Enter internship type',
               ),
               SizedBox(height: 30),
-          
+
               InputField(label: 'Required skills', hintText: 'React, js, ..'),
-          
+
               SizedBox(height: 30),
               Padding(
                 padding: const EdgeInsets.only(right: 16),
@@ -57,13 +57,13 @@ class PostInternship1 extends StatelessWidget {
                   children: [
                     OutlinedBtn(
                       text: 'Go Back',
-                      onPressed: _onGoBackPressed,
+                      onPressed: () => _onGoBackPressed(context),
                       width: 130,
                     ),
                     SizedBox(width: 10),
                     FilledBtn(
                       text: 'Next',
-                      onPressed: _onNextPressed,
+                      onPressed: () => _onNextPressed(context),
                       width: 130,
                     ),
                   ],
@@ -101,5 +101,3 @@ class Header extends StatelessWidget {
     );
   }
 }
-
-

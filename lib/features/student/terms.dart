@@ -87,7 +87,6 @@ class _TermsScreenState extends State<TermsScreen> {
                 padding: const EdgeInsets.only(top: 10, bottom: 25),
                 child: Column(
                   children: [
-                    // Centered Checkbox and Text
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -103,9 +102,14 @@ class _TermsScreenState extends State<TermsScreen> {
                             },
                           ),
                         ),
-                        const Text(
-                          "I have read and agreed to the Terms and Conditions.",
-                          style: TextStyle(fontSize: 12, color: Colors.black87),
+                        const Expanded(
+                          child: Text(
+                            "I have read and agreed to the Terms and Conditions.",
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.black87,
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -113,7 +117,7 @@ class _TermsScreenState extends State<TermsScreen> {
                     const SizedBox(height: 18),
 
                     SizedBox(
-                      width: 280, 
+                      width: 280,
                       height: 50,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -127,7 +131,7 @@ class _TermsScreenState extends State<TermsScreen> {
                         ),
                         onPressed: isChecked
                             ? () {
-                                context.goNamed('profile');
+                                context.goNamed(' ');
                               }
                             : null,
                         child: const Text(

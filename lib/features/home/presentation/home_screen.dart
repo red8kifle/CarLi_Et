@@ -5,12 +5,13 @@ import '../../../core/widgets/buttons/light_btn.dart';
 class Home extends StatelessWidget {
   const Home({super.key});
 
-   void _onStudentPressed(BuildContext context) {
+  void _onStudentPressed(BuildContext context) {
     context.pushNamed('student_signin');
-   }
-   void _onCompanyPressed(BuildContext context) {
-    context.pushNamed('student_signin');
-   }
+  }
+
+  void _onCompanyPressed(BuildContext context) {
+    context.pushNamed('company_signin');
+  }
 
   void _onGuestPressed() {
     print("Browse as Guest");
@@ -31,7 +32,8 @@ class Home extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Center(
-          child: SingleChildScrollView(  // to make the child scrollable if content does not fit in the screen
+          child: SingleChildScrollView(
+            // to make the child scrollable if content does not fit in the screen
             child: Column(
               children: [
                 SizedBox(height: screenHeight * 0.05),

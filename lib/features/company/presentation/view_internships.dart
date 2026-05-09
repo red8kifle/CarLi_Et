@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ViewInternships extends StatelessWidget {
   const ViewInternships({super.key});
@@ -7,7 +8,10 @@ class ViewInternships extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const Icon(Icons.arrow_back, color: Color(0xFF087E8B)),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Color(0xFF087E8B)),
+          onPressed: () => context.goNamed('company_home'),
+        ),
         title: const Padding(
           padding: EdgeInsets.fromLTRB(0, 30, 0, 30),
           child: Text(
@@ -65,10 +69,14 @@ class ViewInternships extends StatelessWidget {
                         subtitle: const Text("Internship Description"),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            Icon(Icons.edit),
-                            SizedBox(width: 8),
-                            Icon(Icons.delete),
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.edit),
+                              onPressed: () =>
+                                  context.pushNamed('post_internship_1'),
+                            ),
+                            const SizedBox(width: 8),
+                            const Icon(Icons.delete),
                           ],
                         ),
                       ),

@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:carli_et/core/widgets/buttons/outlined_btn.dart';
 import 'package:flutter/material.dart';
 import 'package:carli_et/core/widgets/buttons/filled_btn.dart';
@@ -17,7 +18,7 @@ class ApplicantResume extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Color(0xFF087E8B)),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.goNamed('company_home'),
         ),
         title: const Text(
           'Applicant Resume',
@@ -38,7 +39,6 @@ class ApplicantResume extends StatelessWidget {
             //Applicant info ────────────────────────────
             Row(
               children: [
-                // Profile Picture
                 Container(
                   width: 70,
                   height: 70,
@@ -61,7 +61,6 @@ class ApplicantResume extends StatelessWidget {
 
                 const SizedBox(width: 16),
 
-                // Name & University
                 const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -132,6 +131,7 @@ class ApplicantResume extends StatelessWidget {
 
             const SizedBox(height: 24),
 
+            // Skills ───────────────────────────────────
             const Text(
               'Skills',
               style: TextStyle(
@@ -157,6 +157,7 @@ class ApplicantResume extends StatelessWidget {
 
             const SizedBox(height: 20),
 
+            // Previous Internships ────────────────────
             const Text(
               'Previous Internships',
               style: TextStyle(
@@ -178,14 +179,13 @@ class ApplicantResume extends StatelessWidget {
 
             const SizedBox(height: 24),
 
-            //Social and Download resume──────────────────
+            // Social and Download resume──────────────────
             Padding(
               padding: const EdgeInsets.only(left: 30),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // GitHub Icon
-                  FaIcon(
+                  const FaIcon(
                     FontAwesomeIcons.github,
                     color: Colors.black87,
                     size: 38,
@@ -193,8 +193,7 @@ class ApplicantResume extends StatelessWidget {
 
                   const SizedBox(width: 10),
 
-                  // LinkedIn Icon
-                  FaIcon(
+                  const FaIcon(
                     FontAwesomeIcons.linkedin,
                     color: Color(0xFF0077B5),
                     size: 38,
@@ -202,7 +201,6 @@ class ApplicantResume extends StatelessWidget {
 
                   const SizedBox(width: 30),
 
-                  // Download Resume Button
                   SizedBox(
                     width: 180,
                     child: OutlinedButton.icon(
@@ -231,16 +229,25 @@ class ApplicantResume extends StatelessWidget {
 
             const SizedBox(height: 40),
 
-            // ── ACCEPT + REJECT BUTTONS ───────────────────
+            // Accept + Reject Buttons ─────────────────
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                FilledBtn(text: 'Accept', width: 130, onPressed: () {}),
+                // Accept → go to view applicants
+                FilledBtn(
+                  text: 'Accept',
+                  width: 130,
+                  onPressed: () => context.goNamed('view_applicants'),
+                ),
 
                 const SizedBox(width: 16),
 
-                // Reject Button
-                OutlinedBtn(text: 'Reject', width: 130, onPressed: () {}),
+                // Reject → go to view applicants
+                OutlinedBtn(
+                  text: 'Reject',
+                  width: 130,
+                  onPressed: () => context.goNamed('view_applicants'),
+                ),
               ],
             ),
 
@@ -252,7 +259,7 @@ class ApplicantResume extends StatelessWidget {
   }
 }
 
-// ── BULLET ITEM ──────────────────────────────────────────────────
+// Bullet Item ─────────────────────────────────────────────────────
 class _BulletItem extends StatelessWidget {
   final String text;
 

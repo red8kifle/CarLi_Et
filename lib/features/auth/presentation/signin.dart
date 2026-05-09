@@ -10,15 +10,29 @@ import '../../../core/widgets/text/app_title.dart';
 import '../../../core/widgets/text/auth_subtitel.dart';
 import '../../../core/widgets/text/action_text.dart';
 
-class StudentSignin extends StatelessWidget {
-  const StudentSignin({super.key});
+class Signin extends StatelessWidget {
+  final String role; // 'student' or 'company'
+
+  const Signin({super.key, required this.role});
 
   void _onLoginPressed(BuildContext context) {
-    context.goNamed("terms");
+    if (role == 'student') {
+      context.goNamed('home'); // change to student home when ready
+    } else {
+      context.goNamed('company_home');
+    }
   }
 
   void _onGoBackPressed(BuildContext context) {
     context.pop();
+  }
+
+  void _onCreateAccountPressed(BuildContext context) {
+    if (role == 'student') {
+      context.pushNamed('student_signup'); 
+    } else {
+      context.pushNamed('company_signup');
+    }
   }
 
   @override
@@ -30,33 +44,48 @@ class StudentSignin extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(height: screenHeight * 0.09),
-              Header(),
+              const Header(),
               SizedBox(height: screenHeight * 0.04),
-              AuthSubtitle(text: 'Sign into your account'),
+              const AuthSubtitle(text: 'Sign into your account'),
               SizedBox(height: screenHeight * 0.03),
-              InputField(
+              const InputField(
                 label: 'Email/username',
                 hintText: 'Enter your Email / username',
               ),
-              SizedBox(height: 15),
-              InputField(label: 'Password', hintText: 'Enter password'),
-              SizedBox(height: 10),
-              ActionText(text: 'Forgot password?'),
-              SizedBox(height: 40),
+              const SizedBox(height: 15),
+              const InputField(
+                label: 'Password',
+                hintText: 'Enter password',
+              ),
+              const SizedBox(height: 10),
+
+              // Forgot Password
+              GestureDetector(
+                onTap: () => context.pushNamed('forgot_password'),
+                child: const ActionText(text: 'Forgot password?'),
+              ),
+
+              const SizedBox(height: 40),
               FilledBtn(
                 text: 'Login',
                 onPressed: () => _onLoginPressed(context),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               OutlinedBtn(
                 text: 'Go Back',
                 onPressed: () => _onGoBackPressed(context),
               ),
-              SizedBox(height: 30),
-              SplitActionText(
-                text: "If you don't have an account ",
-                actionText: "Create Account",
+              const SizedBox(height: 30),
+
+              // Create Account
+              GestureDetector(
+                onTap: () => _onCreateAccountPressed(context),
+                child: const SplitActionText(
+                  text: "If you don't have an account ",
+                  actionText: "Create Account",
+                ),
               ),
+
             ],
           ),
         ),
@@ -65,8 +94,7 @@ class StudentSignin extends StatelessWidget {
   }
 }
 
-//____________________________________________________________________________
-
+//─────────────────────────────────────────────────────────────────
 class Header extends StatelessWidget {
   const Header({super.key});
 
@@ -83,5 +111,3 @@ class Header extends StatelessWidget {
     );
   }
 }
-
-//______________________________________________________________

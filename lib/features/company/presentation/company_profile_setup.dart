@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../core/widgets/logo/carliet_logo.dart';
 import '../../../core/widgets/text/app_title.dart';
 import '../../../core/widgets/text/auth_subtitel.dart';
@@ -8,8 +9,8 @@ import '../../../core/widgets/input/input_field.dart';
 class CompanyProfileSetup extends StatelessWidget {
   const CompanyProfileSetup({super.key});
 
-  void _onFinishPressed() {
-    print("Selected industry");
+  void _onFinishPressed(BuildContext context) {
+    context.pushNamed('company_home');
   }
 
   @override
@@ -43,7 +44,10 @@ class CompanyProfileSetup extends StatelessWidget {
 
             const SizedBox(height: 25),
 
-            FilledBtn(text: 'Finish  >', onPressed: _onFinishPressed),
+            FilledBtn(
+              text: 'Finish  >',
+              onPressed: () => _onFinishPressed(context),
+            ),
           ],
         ),
       ),
