@@ -15,7 +15,7 @@ class StudentSignin extends StatelessWidget {
   const StudentSignin({super.key});
 
   void _onLoginPressed(BuildContext context) {
-    context.goNamed("profile");
+    context.goNamed("terms");
   }
 
   void _onGoBackPressed(BuildContext context) {

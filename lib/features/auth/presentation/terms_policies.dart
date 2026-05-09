@@ -1,4 +1,3 @@
-import 'package:carli_et/features/auth/presentation/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:carli_et/core/widgets/logo/carliet_logo.dart';
 import 'package:go_router/go_router.dart';
@@ -114,7 +113,7 @@ class _TermsScreenState extends State<TermsScreen> {
                     const SizedBox(height: 18),
 
                     SizedBox(
-                      width: 280, // Fixed width as requested
+                      width: 280, 
                       height: 50,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -128,12 +127,7 @@ class _TermsScreenState extends State<TermsScreen> {
                         ),
                         onPressed: isChecked
                             ? () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const ProfileScreen(),
-                                  ),
-                                );
+                                context.goNamed('profile');
                               }
                             : null,
                         child: const Text(

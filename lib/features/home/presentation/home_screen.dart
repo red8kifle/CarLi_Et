@@ -9,7 +9,7 @@ class Home extends StatelessWidget {
     context.pushNamed('student_signin');
    }
    void _onCompanyPressed(BuildContext context) {
-    context.pushNamed('company_signin');
+    context.pushNamed('student_signin');
    }
 
   void _onGuestPressed() {
