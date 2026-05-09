@@ -95,7 +95,7 @@ class CompanyProfile extends StatelessWidget {
                   ],
                 ),
 
-                const SizedBox(width: 20),
+                const SizedBox(width: 10),
 
                 // Company Detail
                 const Column(

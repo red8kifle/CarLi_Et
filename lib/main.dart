@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'CarLi_Et Internship Management',
       debugShowCheckedModeBanner: false,
-      routerConfig: appRouter, 
+      routerConfig: appRouter,
     );
   }
 }

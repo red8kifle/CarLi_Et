@@ -4,20 +4,12 @@ import '../../../core/widgets/text/app_title.dart';
 import '../../../core/widgets/text/auth_subtitel.dart';
 import '../../../core/widgets/buttons/filled_btn.dart';
 import '../../../core/widgets/input/input_field.dart';
-import '../../../core/widgets/input/dropdown_input_field.dart';
 
-class CompanyProfileSetup extends StatefulWidget {
+class CompanyProfileSetup extends StatelessWidget {
   const CompanyProfileSetup({super.key});
 
-  @override
-  State<CompanyProfileSetup> createState() => _CompanyProfileSetupState();
-}
-
-class _CompanyProfileSetupState extends State<CompanyProfileSetup> {
-  String? selectedIndustry;
-
   void _onFinishPressed() {
-    print("Selected industry: $selectedIndustry");
+    print("Selected industry");
   }
 
   @override
@@ -25,40 +17,35 @@ class _CompanyProfileSetupState extends State<CompanyProfileSetup> {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      body: Column(
-        children: [
-          const SizedBox(height: 75),
-          const Header(),
-          SizedBox(height: screenHeight * 0.07),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(height: 75),
+            const Header(),
+            SizedBox(height: screenHeight * 0.07),
 
-          const AuthSubtitle(text: 'Complete your profile', fontSize: 24),
+            const AuthSubtitle(text: 'Complete your profile', fontSize: 24),
 
-          SizedBox(height: screenHeight * 0.03),
+            SizedBox(height: screenHeight * 0.03),
 
-          FirstInputs(
-            selectedIndustry: selectedIndustry,
-            onIndustryChanged: (value) {
-              setState(() {
-                selectedIndustry = value;
-              });
-            },
-          ),
+            FirstInputs(),
 
-          SizedBox(height: screenHeight * 0.03),
+            SizedBox(height: screenHeight * 0.03),
 
-          const InputField(label: 'Location', hintText: 'Location'),
+            const InputField(label: 'Location', hintText: 'Location'),
 
-          const SizedBox(height: 15),
+            const SizedBox(height: 15),
 
-          const InputField(
-            label: 'Description',
-            hintText: 'Enter company description',
-          ),
+            const InputField(
+              label: 'Description',
+              hintText: 'Enter company description',
+            ),
 
-          const SizedBox(height: 25),
+            const SizedBox(height: 25),
 
-          FilledBtn(text: 'Finish  >', onPressed: _onFinishPressed),
-        ],
+            FilledBtn(text: 'Finish  >', onPressed: _onFinishPressed),
+          ],
+        ),
       ),
     );
   }
@@ -91,20 +78,13 @@ class Header extends StatelessWidget {
 // _____________________________________________
 
 class FirstInputs extends StatelessWidget {
-  final String? selectedIndustry;
-  final ValueChanged<String?> onIndustryChanged;
-
-  const FirstInputs({
-    super.key,
-    required this.selectedIndustry,
-    required this.onIndustryChanged,
-  });
+  const FirstInputs({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const CompanyLogoField(),
+        CompanyLogoField(),
         const SizedBox(width: 16),
         Column(
           children: [
@@ -116,18 +96,9 @@ class FirstInputs extends StatelessWidget {
 
             const SizedBox(height: 5),
 
-            DropdownField(
-              label: "Industry",
-              hintText: "Select industry",
-              items: const [
-                "IT",
-                "Healthcare",
-                "Finance",
-                "Education",
-                "Construction",
-              ],
-              selectedValue: selectedIndustry,
-              onChanged: onIndustryChanged,
+            const InputField(
+              label: 'Industry',
+              hintText: 'Enter Industry',
               width: 0.40,
             ),
           ],
@@ -139,11 +110,9 @@ class FirstInputs extends StatelessWidget {
 
 //___________________________________________________
 class CompanyLogoField extends StatelessWidget {
-  final VoidCallback? onTap;
+  CompanyLogoField({super.key});
 
-  const CompanyLogoField({super.key, this.onTap});
-
-  // 👇 fixed values
+  //  fixed values
   static const double leftMargin = 30;
   static const double rightMargin = 40;
 
@@ -161,7 +130,6 @@ class CompanyLogoField extends StatelessWidget {
           const SizedBox(height: 8),
 
           GestureDetector(
-            onTap: onTap,
             child: Container(
               height: 150,
               width: 120,

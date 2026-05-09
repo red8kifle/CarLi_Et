@@ -2,9 +2,9 @@
 import 'package:go_router/go_router.dart';
 // Importing screens
 import 'package:carli_et/features/auth/presentation/terms_policies.dart';
-import 'package:carli_et/features/auth/presentation/profile_page.dart';
+import 'package:carli_et/features/student/profile_page.dart';
 import 'package:carli_et/features/home/presentation/home_screen.dart';
-import 'package:carli_et/features/auth/presentation/student_signin.dart';
+import 'package:carli_et/features/auth/presentation/signin.dart';
 import 'package:carli_et/features/company/presentation/company_home_page.dart';
 
 final GoRouter appRouter = GoRouter(

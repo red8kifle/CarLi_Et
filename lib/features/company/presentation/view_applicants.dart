@@ -50,7 +50,7 @@ class ViewApplicants extends StatelessWidget {
             //  List of Applicants
             Expanded(
               child: ListView.builder(
-                itemCount: 4,
+                itemCount: 3,
                 itemBuilder: (context, index) {
                   return ApplicantCard();
                 },

@@ -19,28 +19,29 @@ class ForgotPassword extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     return Center(
       child: Scaffold(
-        body: Column(
-          children: [
-            SizedBox(height: screenHeight * 0.09),
-            Header(),
-            SizedBox(height: screenHeight * 0.04),
-            AuthSubtitle(text: 'Reset your password'),
-            SizedBox(height: screenHeight * 0.03),
-            InputField(
-              label: 'Email/username',
-              hintText: 'Enter your Email / username',
-            ),
-            SizedBox(height: 10),
-            ActionText(text: 'Login with password'),
-            SizedBox(height: 40),
-            FilledBtn(text: 'Reset', onPressed: _onResetPressed),
-          ],
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: screenHeight * 0.09),
+              Header(),
+              SizedBox(height: screenHeight * 0.04),
+              AuthSubtitle(text: 'Reset your password'),
+              SizedBox(height: screenHeight * 0.03),
+              InputField(
+                label: 'Email/username',
+                hintText: 'Enter your Email / username',
+              ),
+              SizedBox(height: 10),
+              ActionText(text: 'Login with password'),
+              SizedBox(height: 40),
+              FilledBtn(text: 'Reset', onPressed: _onResetPressed),
+            ],
+          ),
         ),
       ),
     );
   }
 }
-
 
 //_____________________________________________
 

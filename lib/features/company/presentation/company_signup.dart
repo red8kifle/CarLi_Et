@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 
-// shared widgets
-import '../../../core/widgets/buttons/outlined_btn.dart';
+import '../../../core/widgets/text/split_action_text.dart';
 import '../../../core/widgets/logo/carliet_logo.dart';
 import '../../../core/widgets/text/app_title.dart';
 import '../../../core/widgets/buttons/filled_btn.dart';
+import '../../../core/widgets/text/auth_subtitel.dart';
 import '../../../core/widgets/input/input_field.dart';
 
-class PostInternship2 extends StatelessWidget {
-  const PostInternship2({super.key});
+class CompanySignup extends StatelessWidget {
+  const CompanySignup({super.key});
 
-  void _onNextPressed() {
-    print("Next");
+  void _onCreateAccountPressed() {
+    print("Student Sign In");
   }
 
-  void _onGoBackPressed() {
-    print("Go Back");
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -26,46 +24,40 @@ class PostInternship2 extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 35),
+              SizedBox(height: 55),
               Header(),
               SizedBox(height: screenHeight * 0.03),
+              AuthSubtitle(text: 'Create a new account', fontSize: 24),
+              SizedBox(height: screenHeight * 0.03),
               InputField(
-                label: 'Internship Description',
-                hintText: 'Enter internship description',
-                height: 100,
+                label: 'Company Name',
+                hintText: 'Enter your company name',
               ),
               SizedBox(height: 15),
-              InputField(label: 'Responsibilities', hintText: ''),
+              InputField(label: 'Email', hintText: 'Enter your email'),
               SizedBox(height: 15),
-              InputField(label: 'Duration', hintText: '6 months'),
-          
+              InputField(label: 'Password', hintText: 'Enter your password'),
               SizedBox(height: 15),
-              InputField(label: 'Compensation', hintText: 'unpaid'),
+              InputField(
+                label: 'Re-enter your Password',
+                hintText: 'Re-enter your password',
+              ),
               SizedBox(height: 30),
-          
-              InputField(label: 'Application Deadline', hintText: '23/03/26'),
-          
-              SizedBox(height: 30),
-              Padding(
-                padding: const EdgeInsets.only(right: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    OutlinedBtn(
-                      text: 'Go Back',
-                      onPressed: _onGoBackPressed,
-                      width: 130,
-                    ),
-                    SizedBox(width: 10),
-                    FilledBtn(
-                      text: 'Post Internship',
-                      onPressed: _onNextPressed,
-                      width: 160,
-                    ),
-                  ],
-                ),
+              SplitActionText(
+                text: "I agree with  ",
+                actionText: "Terms and policy",
               ),
               SizedBox(height: 10),
+              FilledBtn(
+                text: 'Create account',
+                onPressed: _onCreateAccountPressed,
+              ),
+              SizedBox(height: 10),
+              SplitActionText(
+                text: "If you already have an account  ",
+                actionText: "Login",
+              ),
+              SizedBox(height: 80),
             ],
           ),
         ),
@@ -97,5 +89,3 @@ class Header extends StatelessWidget {
     );
   }
 }
-
-// buttons
