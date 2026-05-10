@@ -9,8 +9,6 @@ class CompanyProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-
-      //APP BAR ─────────────────────────────────────────────
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -44,8 +42,6 @@ class CompanyProfile extends StatelessWidget {
           ),
         ),
       ),
-
-      //BODY ────────────────────────────────────────────────
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         child: Column(
@@ -72,11 +68,11 @@ class CompanyProfile extends StatelessWidget {
 
             const SizedBox(height: 24),
 
-            //COMPANY LOGO + INFO ───────────────────────
+            //company logo and info 
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Logo Box
+                // logo box
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -102,7 +98,7 @@ class CompanyProfile extends StatelessWidget {
 
                 const SizedBox(width: 10),
 
-                // Company Detail
+                // Company detail
                 const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -156,8 +152,6 @@ class CompanyProfile extends StatelessWidget {
             ),
 
             const SizedBox(height: 60),
-
-            //DESCRIPTION ───────────────────────────────
             const Text(
               'Description',
               style: TextStyle(
@@ -177,15 +171,12 @@ class CompanyProfile extends StatelessWidget {
                 height: 1.6,
               ),
             ),
-
-            // Spacer─────
             const SizedBox(height: 300),
 
-            //Logout delete button ───────────────────
+            //logout delete button
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Logout Button
                 SizedBox(
                   width: 130,
                   child: OutlinedButton(
@@ -208,7 +199,7 @@ class CompanyProfile extends StatelessWidget {
 
                 const SizedBox(width: 16),
 
-                // Delete Account Button
+                // delete Account button
                 SizedBox(
                   width: 150,
                   child: OutlinedButton(
@@ -236,7 +227,7 @@ class CompanyProfile extends StatelessWidget {
         ),
       ),
 
-      // BOTTOM NAV BAR ─────────────────────────
+      // bottom nav bar 
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
         child: Container(
@@ -255,7 +246,7 @@ class CompanyProfile extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              // Left Icon
+              // left Icon
               IconButton(
                 icon: const Icon(
                   Icons.people_outline,
@@ -265,7 +256,7 @@ class CompanyProfile extends StatelessWidget {
                 onPressed: () => context.pushNamed('view_applicants'),
               ),
 
-              // Middle Icon
+              // middle icon
               IconButton(
                 icon: const Icon(
                   Icons.home_outlined,
@@ -275,7 +266,7 @@ class CompanyProfile extends StatelessWidget {
                 onPressed: () => context.pushNamed('company_home'),
               ),
 
-              // Right Icon
+              // right icon
               GestureDetector(
                 onTap: () => context.pushNamed('company_profile'),
                 child: Container(

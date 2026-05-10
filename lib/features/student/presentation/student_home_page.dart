@@ -24,7 +24,7 @@ class StudentHomePage extends StatelessWidget {
   }
 }
 
-// Header section
+// header section
 
 class _HeaderSection extends StatelessWidget {
   const _HeaderSection();
@@ -119,7 +119,7 @@ class _HeaderSection extends StatelessWidget {
             children: [
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 40),
+                  padding: const EdgeInsets.only(left: 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -174,7 +174,7 @@ class _HeaderSection extends StatelessWidget {
               ),
 
               Padding(
-                padding: const EdgeInsets.only(right: 35),
+                padding: const EdgeInsets.only(right: 10),
                 child: Container(
                   padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
@@ -250,7 +250,7 @@ class _HeaderSection extends StatelessWidget {
   }
 }
 
-// Body section
+// body section
 class _BodyContent extends StatelessWidget {
   const _BodyContent();
 
@@ -439,7 +439,7 @@ class _InstitutionCard extends StatelessWidget {
     );
   }
 }
-// Bottom navigation bar
+// bottom navigation bar
 
 class _BottomNavBar extends StatelessWidget {
   const _BottomNavBar();
@@ -482,7 +482,7 @@ class _BottomNavBar extends StatelessWidget {
               icon: Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color:  Colors.transparent,
+                  color: Colors.transparent,
                   shape: BoxShape.circle,
                   border: Border.all(color: Colors.white, width: 2),
                 ),

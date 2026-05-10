@@ -128,6 +128,7 @@ class CompanyProfileSetup extends StatelessWidget {
   }
 }
 
+//________________________________________________________________
 class CompanyLogoField extends StatelessWidget {
   const CompanyLogoField({super.key});
 

@@ -12,7 +12,7 @@ class BrowseInternshipDetail extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            // TOP SECTION
+            // top section
             Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
@@ -25,7 +25,7 @@ class BrowseInternshipDetail extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  // TOP BAR
+                  //top bar
                   Row(
                     children: [
                       IconButton(
@@ -39,7 +39,7 @@ class BrowseInternshipDetail extends StatelessWidget {
 
                   const SizedBox(height: 8),
 
-                  // COMPANY INFO
+                  // company info
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -94,7 +94,7 @@ class BrowseInternshipDetail extends StatelessWidget {
 
                   const SizedBox(height: 20),
 
-                  // INFO BOXES
+                  // info box
                   Row(
                     children: [
                       Expanded(
@@ -126,7 +126,7 @@ class BrowseInternshipDetail extends StatelessWidget {
               ),
             ),
 
-            // BODY CONTENT
+            // body content
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(18),

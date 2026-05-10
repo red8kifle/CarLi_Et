@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:carli_et/core/widgets/logo/carliet_logo.dart';
 import 'package:go_router/go_router.dart';
 
-class TermsScreen extends StatefulWidget {
-  const TermsScreen({super.key});
+class TermsStudent extends StatefulWidget {
+  const TermsStudent({super.key});
 
   @override
-  State<TermsScreen> createState() => _TermsScreenState();
+  State<TermsStudent> createState() => _TermsStudentState();
 }
 
-class _TermsScreenState extends State<TermsScreen> {
+class _TermsStudentState extends State<TermsStudent> {
   bool isChecked = false;
 
   @override
@@ -131,7 +131,7 @@ class _TermsScreenState extends State<TermsScreen> {
                         ),
                         onPressed: isChecked
                             ? () {
-                                context.goNamed(' ');
+                                context.goNamed('complete_profile_one');
                               }
                             : null,
                         child: const Text(

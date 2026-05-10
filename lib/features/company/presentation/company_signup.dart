@@ -64,8 +64,6 @@ class _CompanySignupState extends State<CompanySignup> {
                 hintText: 'Re-enter your password',
               ),
               const SizedBox(height: 30),
-
-              // ── CHECKBOX + TERMS ──────────────────────────
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -89,16 +87,12 @@ class _CompanySignupState extends State<CompanySignup> {
               ),
 
               const SizedBox(height: 10),
-
-              // ── CREATE ACCOUNT BUTTON ─────────────────────
               FilledBtn(
                 text: 'Create account',
                 onPressed: () => _onCreateAccountPressed(context),
               ),
 
               const SizedBox(height: 10),
-
-              // ── LOGIN LINK ────────────────────────────────
               GestureDetector(
                 onTap: () => context.pushNamed('company_signin'),
                 child: const SplitActionText(

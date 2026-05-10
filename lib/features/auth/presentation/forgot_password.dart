@@ -35,7 +35,6 @@ class ForgotPassword extends StatelessWidget {
               ),
               const SizedBox(height: 10),
 
-              // Login with password - go back to signin
               SizedBox(
                 width: screenWidth,
                 child: Align(

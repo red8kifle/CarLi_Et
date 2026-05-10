@@ -11,8 +11,6 @@ class ApplicantResume extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-
-      //App bar─────────────────────────────────────────────
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -29,14 +27,11 @@ class ApplicantResume extends StatelessWidget {
           ),
         ),
       ),
-
-      //Body ────────────────────────────────────────────────
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            //Applicant info ────────────────────────────
             Row(
               children: [
                 Container(
@@ -84,7 +79,6 @@ class ApplicantResume extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            //Year of study and CGPA ──────────────────────
             Row(
               children: [
                 RichText(
@@ -131,7 +125,6 @@ class ApplicantResume extends StatelessWidget {
 
             const SizedBox(height: 24),
 
-            // Skills ───────────────────────────────────
             const Text(
               'Skills',
               style: TextStyle(
@@ -157,7 +150,6 @@ class ApplicantResume extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            // Previous Internships ────────────────────
             const Text(
               'Previous Internships',
               style: TextStyle(
@@ -178,8 +170,6 @@ class ApplicantResume extends StatelessWidget {
             const _BulletItem(text: 'IT Support Intern — Bright Systems Ltd.'),
 
             const SizedBox(height: 24),
-
-            // Social and Download resume──────────────────
             Padding(
               padding: const EdgeInsets.only(left: 30),
               child: Row(
@@ -229,11 +219,9 @@ class ApplicantResume extends StatelessWidget {
 
             const SizedBox(height: 40),
 
-            // Accept + Reject Buttons ─────────────────
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Accept → go to view applicants
                 FilledBtn(
                   text: 'Accept',
                   width: 130,
@@ -242,7 +230,6 @@ class ApplicantResume extends StatelessWidget {
 
                 const SizedBox(width: 16),
 
-                // Reject → go to view applicants
                 OutlinedBtn(
                   text: 'Reject',
                   width: 130,
@@ -259,7 +246,7 @@ class ApplicantResume extends StatelessWidget {
   }
 }
 
-// Bullet Item ─────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────
 class _BulletItem extends StatelessWidget {
   final String text;
 

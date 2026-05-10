@@ -31,17 +31,19 @@ class BrowseInternshipsPage extends StatelessWidget {
   }
 }
 
-//Header section
+//───────────────────────────────────────────────────────────────────
+
 class _BrowseHeader extends StatelessWidget {
   const _BrowseHeader();
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(25, 20, 25, 20),
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Logo row
           Row(
             children: [
               ColorFiltered(
@@ -49,9 +51,9 @@ class _BrowseHeader extends StatelessWidget {
                   Colors.white,
                   BlendMode.srcIn,
                 ),
-                child: const Logo(height: 60),
+                child: const Logo(height: 44),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -63,7 +65,7 @@ class _BrowseHeader extends StatelessWidget {
                           style: TextStyle(
                             color: Colors.white60,
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 14,
                           ),
                         ),
                         TextSpan(
@@ -71,7 +73,7 @@ class _BrowseHeader extends StatelessWidget {
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 14,
                           ),
                         ),
                       ],
@@ -79,7 +81,7 @@ class _BrowseHeader extends StatelessWidget {
                   ),
                   const Text(
                     'Management',
-                    style: TextStyle(color: Colors.white, fontSize: 12),
+                    style: TextStyle(color: Colors.white70, fontSize: 11),
                   ),
                 ],
               ),
@@ -90,13 +92,12 @@ class _BrowseHeader extends StatelessWidget {
             'Browse for Internships',
             style: TextStyle(
               color: Colors.white,
-              fontSize: 24,
+              fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 15),
           Row(
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
                 width: 160,
@@ -148,7 +149,8 @@ class _BrowseHeader extends StatelessWidget {
     );
   }
 }
-// Body section
+
+//─────────────────────────────────────────────────────────────────────
 
 class _BrowseBody extends StatelessWidget {
   const _BrowseBody({super.key});
@@ -160,7 +162,7 @@ class _BrowseBody extends StatelessWidget {
       'title': 'Summer Intern',
       'desc': "Join Ethiopia's first bank...",
       'loc': 'Addis Ababa',
-      'dur': '8-12 wks',
+      'dur': '8–12 wks',
       'sal': 'N/A',
       'tags': '#Finance #Banking',
     },
@@ -219,20 +221,21 @@ class _BrowseBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      padding: const EdgeInsets.fromLTRB(10, 20, 10, 100),
+      padding: const EdgeInsets.fromLTRB(12, 16, 12, 100),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         childAspectRatio: 1.5,
         crossAxisSpacing: 25,
         mainAxisSpacing: 25,
       ),
-      itemCount: 6,
+      itemCount: internshipData.length,
       itemBuilder: (context, index) => _BrowseCard(data: internshipData[index]),
     );
   }
 }
 
-//Internship card
+// ─────────────────────────────────────────────────────────────────────
+
 class _BrowseCard extends StatelessWidget {
   final Map<String, String> data;
   const _BrowseCard({required this.data});
@@ -243,7 +246,7 @@ class _BrowseCard extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(14),
         border: Border.all(color: Colors.grey.shade200),
         boxShadow: [
           BoxShadow(
@@ -259,12 +262,12 @@ class _BrowseCard extends StatelessWidget {
           Text(
             data['company']!,
             style: const TextStyle(
-              color: Colors.black26,
+              color: Colors.black38,
               fontSize: 10,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 8),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -373,14 +376,85 @@ class _BrowseCard extends StatelessWidget {
     );
   }
 }
+// ──────────────────────────────────────────────────────────
 
+class _CategoryFilterDropdown extends StatefulWidget {
+  const _CategoryFilterDropdown();
+
+  @override
+  State<_CategoryFilterDropdown> createState() =>
+      _CategoryFilterDropdownState();
+}
+
+class _CategoryFilterDropdownState extends State<_CategoryFilterDropdown> {
+  String selectedFilter = 'Category';
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 38,
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: PopupMenuButton<String>(
+        offset: const Offset(0, 42),
+        onSelected: (String value) {
+          setState(() => selectedFilter = value);
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Text(
+                selectedFilter,
+                style: const TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF011627),
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            const Icon(
+              Icons.keyboard_arrow_down,
+              size: 16,
+              color: Color(0xFF011627),
+            ),
+          ],
+        ),
+        itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+          const PopupMenuItem<String>(
+            value: 'Name',
+            child: Text('Filter by Name'),
+          ),
+          const PopupMenuItem<String>(
+            value: 'Date',
+            child: Text('Filter by Date'),
+          ),
+          const PopupMenuItem<String>(
+            value: 'Type',
+            child: Text('Filter by Type'),
+          ),
+          const PopupMenuItem<String>(
+            value: 'Location',
+            child: Text('Filter by Location'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+//───────────────────────────────────────────────────────
 class _CompactDetail extends StatelessWidget {
   final IconData icon;
   final String text;
   final Color iconColor;
 
   const _CompactDetail({
-    required this.icon, 
+    required this.icon,
     required this.text,
     required this.iconColor,
   });
@@ -392,7 +466,7 @@ class _CompactDetail extends StatelessWidget {
         Icon(icon, size: 12, color: iconColor),
         const SizedBox(width: 4),
         Text(
-          text, 
+          text,
           style: const TextStyle(fontSize: 10, color: Colors.black54),
         ),
       ],
@@ -400,135 +474,59 @@ class _CompactDetail extends StatelessWidget {
   }
 }
 
-// Filter catagory dropdown
+// ───────────────────────────────────────────────────────────
 
-class _CategoryFilterDropdown extends StatefulWidget {
-  const _CategoryFilterDropdown();
-
-  @override
-  State<_CategoryFilterDropdown> createState() =>
-      _CategoryFilterDropdownState();
-}
-
-class _CategoryFilterDropdownState extends State<_CategoryFilterDropdown> {
-  String selectedFilter = '  Filter by Category';
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 40,
-      padding: const EdgeInsets.symmetric(horizontal: 0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: PopupMenuButton<String>(
-        offset: const Offset(0, 45),
-        onSelected: (String value) {
-          setState(() {
-            selectedFilter = value;
-          });
-        },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Text(
-                selectedFilter,
-                style: const TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF011627),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ),
-            const Icon(
-              Icons.keyboard_arrow_down,
-              size: 18,
-              color: Color(0xFF011627),
-            ),
-          ],
-        ),
-        itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-          const PopupMenuItem<String>(
-            value: '  Filter by Name',
-            child: Text('Filter by Name'),
-          ),
-          const PopupMenuItem<String>(
-            value: '  Filter by Date',
-            child: Text('Filter by Date'),
-          ),
-          const PopupMenuItem<String>(
-            value: '  Filter by Type',
-            child: Text('Filter by Internship Type'),
-          ),
-          const PopupMenuItem<String>(
-            value: '  Filter by Location',
-            child: Text('Filter by Location'),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-
-// Bottom navigation bar
 class _BottomNavBar extends StatelessWidget {
   const _BottomNavBar();
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(25, 0, 25, 30),
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
       child: Container(
-        height: 70,
+        height: 64,
         decoration: BoxDecoration(
           color: const Color(0xFF087E8B),
-          borderRadius: BorderRadius.circular(35),
+          borderRadius: BorderRadius.circular(32),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.2),
-              blurRadius: 15,
-              offset: const Offset(0, 8),
+              color: Colors.black.withOpacity(0.18),
+              blurRadius: 14,
+              offset: const Offset(0, 6),
             ),
           ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            // active tab indicator
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Colors.transparent,
                 shape: BoxShape.circle,
                 border: Border.all(color: Colors.white, width: 2),
               ),
               child: const Icon(
                 Icons.grid_view_rounded,
                 color: Colors.white,
-                size: 26,
+                size: 24,
               ),
             ),
             IconButton(
               icon: const Icon(
                 Icons.home_outlined,
                 color: Colors.white,
-                size: 30,
+                size: 28,
               ),
-              onPressed: () {
-                context.pushNamed('student_home');
-              },
+              onPressed: () => context.pushNamed('student_home'),
             ),
             IconButton(
               icon: const Icon(
                 Icons.people_alt_rounded,
                 color: Colors.white,
-                size: 30,
+                size: 28,
               ),
-              onPressed: () {
-                context.pushNamed('profile');
-              },
+              onPressed: () => context.pushNamed('profile'),
             ),
           ],
         ),

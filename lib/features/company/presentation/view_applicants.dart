@@ -27,7 +27,7 @@ class ViewApplicants extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            //  Dropdown
+            //  dropdown
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
@@ -51,7 +51,7 @@ class ViewApplicants extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            //  List of Applicants
+            //  list of Applicants
             Expanded(
               child: ListView.builder(
                 itemCount: 3,

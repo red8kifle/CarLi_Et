@@ -90,7 +90,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   children: [
                     Center(
                       child: Row(
-                        mainAxisSize: MainAxisSize.min, // Corrected: groups elements together
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           Transform.scale(
                             scale: 0.9,
@@ -104,10 +104,12 @@ class _TermsScreenState extends State<TermsScreen> {
                               },
                             ),
                           ),
-                          const SizedBox(width: 4), 
-                          SplitActionText(
-                            text: "I have read and agreed to the ",
-                            actionText: "Terms and Conditions.",
+                          const SizedBox(width: 4),
+                          Expanded(
+                            child: SplitActionText(
+                              text: "I have read and agreed to the ",
+                              actionText: "Terms and Conditions.",
+                            ),
                           ),
                         ],
                       ),

@@ -124,7 +124,7 @@ class AppSubtitle extends StatelessWidget {
 //_____________________________________________________________________________
 
 class AuthButtons extends StatelessWidget {
-  final VoidCallback onStudentPressed; // a function that returns nothing
+  final VoidCallback onStudentPressed;
   final VoidCallback onCompanyPressed;
 
   const AuthButtons({

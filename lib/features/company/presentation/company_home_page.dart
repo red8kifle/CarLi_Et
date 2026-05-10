@@ -8,8 +8,6 @@ class CompanyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-
-      //APP BAR ─────────────────────────────────────────────
       appBar: AppBar(
         backgroundColor: const Color(0xFF087E8B),
         elevation: 0,
@@ -48,16 +46,12 @@ class CompanyHomePage extends StatelessWidget {
           ),
         ],
       ),
-
-      //BODY ────────────────────────────────────────────────
       body: Stack(
         children: [
-          //TEAL BACKGROUND TOP ───────────────────────────
           Container(height: 200, color: const Color(0xFF087E8B)),
 
           Column(
             children: [
-              //COMPANY INFO ────────────────────────────
               Padding(
                 padding: const EdgeInsets.only(
                   left: 20,
@@ -106,7 +100,7 @@ class CompanyHomePage extends StatelessWidget {
                 ),
               ),
 
-              //WHITE curved body ────────────────────────
+              // ────────────────────────
               Expanded(
                 child: Container(
                   width: double.infinity,
@@ -146,7 +140,7 @@ class CompanyHomePage extends StatelessWidget {
           ),
         ],
       ),
-      //Bottom nav bar─────────────────────────
+      //bottom nav bar
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
         child: Container(
@@ -165,7 +159,7 @@ class CompanyHomePage extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              // Left Icon
+              // left icon
               IconButton(
                 icon: const Icon(
                   Icons.people_outline,
@@ -175,7 +169,7 @@ class CompanyHomePage extends StatelessWidget {
                 onPressed: () => context.pushNamed('view_applicants'),
               ),
 
-              // Middle Icon
+              // middle icon
               GestureDetector(
                  onTap: () => context.pushNamed('company_home'),
                 child: Container(
@@ -194,7 +188,7 @@ class CompanyHomePage extends StatelessWidget {
                 ),
               ),
 
-              // Right Icon
+              // right icon
               IconButton(
                 icon: const Icon(
                   Icons.bar_chart_outlined,
@@ -210,6 +204,8 @@ class CompanyHomePage extends StatelessWidget {
     );
   }
 }
+
+//___________________________________________________________________
 
 class _MenuButton extends StatelessWidget {
   final IconData icon;

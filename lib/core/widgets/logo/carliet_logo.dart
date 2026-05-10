@@ -5,7 +5,7 @@ class Logo extends StatelessWidget {
 
   const Logo({
     super.key,
-    this.height = 100, // default value if you don’t pass anything
+    this.height = 100, // default value 
   });
 
   @override

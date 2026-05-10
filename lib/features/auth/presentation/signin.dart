@@ -11,7 +11,7 @@ import '../../../core/widgets/text/auth_subtitel.dart';
 import '../../../core/widgets/text/action_text.dart';
 
 class Signin extends StatelessWidget {
-  final String role; // 'student' or 'company'
+  final String role; // student or company
 
   const Signin({super.key, required this.role});
 

@@ -26,7 +26,7 @@ class InternshipDetailsPage extends StatelessWidget {
   }
 }
 
-//Header section
+//header section
 class _HeaderSection extends StatelessWidget {
   final Map<String, String> data;
   const _HeaderSection({required this.data});
@@ -118,7 +118,7 @@ class _InfoTile extends StatelessWidget {
     );
   }
 }
-// Body section
+// body section
 class _BodyContent extends StatelessWidget {
   final Map<String, String> data;
   const _BodyContent({required this.data});

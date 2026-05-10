@@ -67,8 +67,6 @@ class _StudentSignupState extends State<StudentSignup> {
                 hintText: 'Re-enter your password',
               ),
               const SizedBox(height: 30),
-
-              // ── CHECKBOX + TERMS ──────────────────────────
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -82,7 +80,7 @@ class _StudentSignupState extends State<StudentSignup> {
                     },
                   ),
                   GestureDetector(
-                    onTap: () => context.pushNamed('terms'),
+                    onTap: () => context.pushNamed('termsStudent'),
                     child: const SplitActionText(
                       text: "I agree with  ",
                       actionText: "Terms and policy",
@@ -93,23 +91,18 @@ class _StudentSignupState extends State<StudentSignup> {
 
               const SizedBox(height: 10),
 
-              // ── CREATE ACCOUNT BUTTON ─────────────────────
               FilledBtn(
                 text: 'Create account',
                 onPressed: () => _onCreateAccountPressed(context),
               ),
 
               const SizedBox(height: 10),
-
-              // ── GO BACK BUTTON ────────────────────────────
               OutlinedBtn(
                 text: 'Go Back',
                 onPressed: () => context.pushNamed('home'),
               ),
 
               const SizedBox(height: 10),
-
-              // ── LOGIN LINK ────────────────────────────────
               GestureDetector(
                 onTap: () => context.pushNamed('student_signin'),
                 child: const SplitActionText(

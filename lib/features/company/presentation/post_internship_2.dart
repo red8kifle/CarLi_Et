@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-// shared widgets
+
 import '../../../core/widgets/buttons/outlined_btn.dart';
 import '../../../core/widgets/logo/carliet_logo.dart';
 import '../../../core/widgets/text/app_title.dart';
@@ -98,4 +98,3 @@ class Header extends StatelessWidget {
   }
 }
 
-// buttons

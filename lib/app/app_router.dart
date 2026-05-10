@@ -1,5 +1,6 @@
-import 'package:carli_et/features/Browse/browse_as_guest.dart';
-import 'package:carli_et/features/Browse/browse_internship_detail.dart';
+import 'package:carli_et/features/Browse_as_guest/browse_as_guest.dart';
+import 'package:carli_et/features/Browse_as_guest/browse_internship_detail.dart';
+import 'package:carli_et/features/student/presentation/terms.dart';
 import 'package:go_router/go_router.dart';
 import '../features/company/presentation/company_signup.dart';
 import '../features/student/presentation/student_signup.dart';
@@ -33,11 +34,16 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) => const Home(),
     ),
 
-    // ── AUTH ─────────────────────────────────────────────
+    
     GoRoute(
       path: '/terms',
       name: 'terms',
       builder: (context, state) => const TermsScreen(),
+    ),
+   GoRoute(
+      path: '/termsStudent',
+      name: 'termsStudent',
+      builder: (context, state) => const TermsStudent(),
     ),
     GoRoute(
       path: '/student_signin',
