@@ -22,12 +22,18 @@ import '../features/student/presentation/auth_complete_profile_one.dart';
 import '../features/student/presentation/auth_complete_profile_two.dart';
 import '../features/student/presentation/auth_complete_profile_three.dart';
 
-
-
 final GoRouter appRouter = GoRouter(
   initialLocation: '/',
   routes: [
-    GoRoute(path: '/', name: 'home', builder: (context, state) => const Home()),
+
+    // ── HOME ─────────────────────────────────────────────
+    GoRoute(
+      path: '/',
+      name: 'home',
+      builder: (context, state) => const Home(),
+    ),
+
+    // ── AUTH ─────────────────────────────────────────────
     GoRoute(
       path: '/terms',
       name: 'terms',
@@ -48,6 +54,57 @@ final GoRouter appRouter = GoRouter(
       name: 'forgot_password',
       builder: (context, state) => const ForgotPassword(),
     ),
+
+    // ── STUDENT ──────────────────────────────────────────
+    GoRoute(
+      path: '/student_signup',
+      name: 'student_signup',
+      builder: (context, state) => const StudentSignup(),
+    ),
+    GoRoute(
+      path: '/profile',
+      name: 'profile',
+      builder: (context, state) => const ProfileScreen(),
+    ),
+    GoRoute(
+      path: '/student_home',
+      name: 'student_home',
+      builder: (context, state) => const StudentHomePage(),
+    ),
+    GoRoute(
+      path: '/browse_internships',
+      name: 'browse_internships',
+      builder: (context, state) => const BrowseInternshipsPage(),
+    ),
+    GoRoute(
+      path: '/complete_profile_one',
+      name: 'complete_profile_one',
+      builder: (context, state) => const AuthCompleteProfileOne(),
+    ),
+    GoRoute(
+      path: '/complete_profile_two',
+      name: 'complete_profile_two',
+      builder: (context, state) => const AuthCompleteProfileTwo(),
+    ),
+    GoRoute(
+      path: '/complete_profile_three',
+      name: 'complete_profile_three',
+      builder: (context, state) => const AuthCompleteProfileThree(),
+    ),
+
+    // ── BROWSE AS GUEST ───────────────────────────────────
+    GoRoute(
+      path: '/browse_as_guest',
+      name: 'browse_as_guest',
+      builder: (context, state) => const BrowseAsGuest(),
+    ),
+    GoRoute(
+      path: '/browse_internship_detail',
+      name: 'browse_internship_detail',
+      builder: (context, state) => const BrowseInternshipDetail(),
+    ),
+
+    // ── COMPANY ──────────────────────────────────────────
     GoRoute(
       path: '/company_signup',
       name: 'company_signup',
@@ -93,60 +150,6 @@ final GoRouter appRouter = GoRouter(
       name: 'applicant_resume',
       builder: (context, state) => const ApplicantResume(),
     ),
-    GoRoute(
-      path: '/Student_signup',
-      name: 'student_signup',
-      builder: (context, state) => const StudentSignup(),
-    ),
-    GoRoute(
-      path: '/profile',
-      name: 'profile',
-      builder: (context, state) => const ProfileScreen(),
-    ),
-    GoRoute(
-      path: '/student_home',
-      name: 'student_home',
-      builder: (context, state) => const StudentHomePage(),
-    ),
-    GoRoute(
-      path: '/browse_internships',
-      name: 'browse_internships',
-      builder: (context, state) => const BrowseInternshipsPage(),
-    ),
-    GoRoute(
-      path: '/complete_profile_one',
-      name: 'complete_profile_one',
-      builder: (context, state) => const AuthCompleteProfileOne(),
-    ),
-    GoRoute(
-      path: '/complete_profile_two',
-      name: 'complete_profile_two',
-      builder: (context, state) => const AuthCompleteProfileTwo(),
-    ),
-    GoRoute(
-      path: '/complete_profile_three',
-      name: 'complete_profile_three',
-      builder: (context, state) => const AuthCompleteProfileThree(),
-    ),
-    GoRoute(
-      path: '/browse_as_guest',
-      name: 'browse_as_guest',
-      builder: (context, state) => const BrowseAsGuest(),
-    ),
-    GoRoute(
-      path: '/browse_internship_detail',
-      name: 'browse_internship_detail',
-      builder: (context, state) => const BrowseInternshipDetail(),
-    ),
-    GoRoute( 
-      path: '/browse_as_guest',
-      name: 'browse_as_guest',
-      builder: (context, state) => const BrowseAsGuest (),
-    ),
-    GoRoute(
-      path: '/AuthCompleteProfileOne',
-      name: 'AuthCompleteProfileOne',
-      builder: (context, state) => const AuthCompleteProfileOne(),
-      ),
+
   ],
 );
