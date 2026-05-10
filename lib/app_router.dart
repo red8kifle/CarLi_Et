@@ -135,5 +135,10 @@ final GoRouter appRouter = GoRouter(
       name: 'browse_as_guest',
       builder: (context, state) => const BrowseAsGuest (),
     ),
+    GoRoute(
+      path: '/AuthCompleteProfileOne',
+      name: 'AuthCompleteProfileOne',
+      builder: (context, state) => const AuthCompleteProfileOne(),
+      ),
   ],
 );

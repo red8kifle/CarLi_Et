@@ -11,19 +11,23 @@ class AuthCompleteProfileThree extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final fieldWidth = screenWidth * 0.85;
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 10),
-              const Row(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Logo(height: 35),
-                  SizedBox(width: 10),
-                  Expanded(
+                  const Logo(height: 35),
+                  const SizedBox(width: 10),
+                  const Expanded(
                     child: Text.rich(
                       TextSpan(
                         text: "CarLi_ET ",
@@ -63,69 +67,71 @@ class AuthCompleteProfileThree extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 29),
-              Form(
-                child: Column(
-                  children: [
-                    DropdownField(
-                      label: "Work Authorization",
-                      hintText: "Citizen, Permanent Resident, etc...",
-                      width: 0.85,
-                      items: const [
-                        "Citizen",
-                        "Permanent Resident",
-                        "Work visa holder",
-                        "Temporary Resident with work permit"
-                      ],
-                      selectedValue: null,
-                      onChanged: (value) {},
-                    ),
-                    const SizedBox(height: 16),
-                    DropdownField(
-                      label: "Need visa sponsorship?",
-                      hintText: "Yes / No",
-                      width: 0.85,
-                      items: const ["Yes", "No"],
-                      selectedValue: null,
-                      onChanged: (value) {},
-                    ),
-                    const SizedBox(height: 16),
-                    DropdownField(
-                      label: "Gender",
-                      hintText: "Male / Female",
-                      width: 0.85,
-                      items: const ["Male", "Female"],
-                      selectedValue: null,
-                      onChanged: (value) {},
-                    ),
-                    const SizedBox(height: 16),
-                    DropdownField(
-                      label: "Disability status",
-                      hintText: "Yes / No",
-                      width: 0.85,
-                      items: const ["Yes", "No"],
-                      selectedValue: null,
-                      onChanged: (value) {},
-                    ),
-                  ],
+              SizedBox(
+                width: fieldWidth,
+                child: Form(
+                  child: Column(
+                    children: [
+                      DropdownField(
+                        label: "Work Authorization",
+                        hintText: "Citizen, Permanent Resident, etc...",
+                        items: const [
+                          "Citizen",
+                          "Permanent Resident",
+                          "Work visa holder",
+                          "Temporary Resident with work permit"
+                        ],
+                        selectedValue: null,
+                        onChanged: (value) {},
+                      ),
+                      const SizedBox(height: 16),
+                      DropdownField(
+                        label: "Need visa sponsorship?",
+                        hintText: "Yes / No",
+                        items: const ["Yes", "No"],
+                        selectedValue: null,
+                        onChanged: (value) {},
+                      ),
+                      const SizedBox(height: 16),
+                      DropdownField(
+                        label: "Gender",
+                        hintText: "Male / Female",
+                        items: const ["Male", "Female"],
+                        selectedValue: null,
+                        onChanged: (value) {},
+                      ),
+                      const SizedBox(height: 16),
+                      DropdownField(
+                        label: "Disability status",
+                        hintText: "Yes / No",
+                        items: const ["Yes", "No"],
+                        selectedValue: null,
+                        onChanged: (value) {},
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: 40),
-              Row(
-                children: [
-                  Expanded(
-                    child: OutlinedBtn(
-                      text: "Go Back",
-                      onPressed: () => context.goNamed('complete_profile_two'),
+              SizedBox(
+                width: fieldWidth,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedBtn(
+                        text: "Go Back",
+                        onPressed: () => context.goNamed('complete_profile_two'),
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: FilledBtn(
-                      text: 'Next    >',
-                      onPressed: () => context.pushNamed('student_home'),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: FilledBtn(
+                        text: 'Next    >',
+                        onPressed: () => context.pushNamed('student_home'),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               const SizedBox(height: 20),
             ],

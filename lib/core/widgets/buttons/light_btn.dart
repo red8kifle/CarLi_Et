@@ -8,7 +8,10 @@ class LightBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return SizedBox(
+      width: 270,
+      height: 50,
+    child: ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.white,
@@ -21,6 +24,7 @@ class LightBtn extends StatelessWidget {
         text,
         style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
       ),
-    );
+    )
+   );
   }
 }

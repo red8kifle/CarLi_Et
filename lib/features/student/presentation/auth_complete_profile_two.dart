@@ -12,19 +12,23 @@ class AuthCompleteProfileTwo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final fieldWidth = screenWidth * 0.85;
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 10),
-              const Row(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Logo(height: 35),
-                  SizedBox(width: 10),
-                  Expanded(
+                  const Logo(height: 35),
+                  const SizedBox(width: 10),
+                  const Expanded(
                     child: Text.rich(
                       TextSpan(
                         text: "CarLi_ET ",
@@ -64,60 +68,61 @@ class AuthCompleteProfileTwo extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 29),
-              Form(
-                child: Column(
-                  children: [
-                    const InputField(
-                      label: 'Skills',
-                      hintText: 'Enter your skills',
-                      width: 0.85,
-                    ),
-                    const SizedBox(height: 16),
-                    const PdfUploadBoxWidget(label: "Resume / CV"),
-                    const SizedBox(height: 16),
-                    const InputField(
-                      label: "LinkedIn URL",
-                      hintText: "LinkedIn URL",
-                      width: 0.85,
-                    ),
-                    const SizedBox(height: 16),
-                    const InputField(
-                      label: "Portfolio / GitHub",
-                      hintText: "URL (Portfolio / GitHub)",
-                      width: 0.85,
-                    ),
-                    const SizedBox(height: 16),
-                    const InputField(
-                      label: "Languages",
-                      hintText: "English",
-                      width: 0.85,
-                    ),
-                    const SizedBox(height: 16),
-                    const InputField(
-                      label: 'Previous Internships (Optional)',
-                      hintText: 'Enter your previous internships',
-                      width: 0.85,
-                    ),
-                  ],
+              SizedBox(
+                width: fieldWidth,
+                child: Form(
+                  child: Column(
+                    children: [
+                      const InputField(
+                        label: 'Skills',
+                        hintText: 'Enter your skills',
+                      ),
+                      const SizedBox(height: 16),
+                      const PdfUploadBoxWidget(label: "Resume / CV"),
+                      const SizedBox(height: 16),
+                      const InputField(
+                        label: "LinkedIn URL",
+                        hintText: "LinkedIn URL",
+                      ),
+                      const SizedBox(height: 16),
+                      const InputField(
+                        label: "Portfolio / GitHub",
+                        hintText: "URL (Portfolio / GitHub)",
+                      ),
+                      const SizedBox(height: 16),
+                      const InputField(
+                        label: "Languages",
+                        hintText: "English",
+                      ),
+                      const SizedBox(height: 16),
+                      const InputField(
+                        label: 'Previous Internships (Optional)',
+                        hintText: 'Enter your previous internships',
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: 40),
-              Row(
-                children: [
-                  Expanded(
-                    child: OutlinedBtn(
-                      text: "Go Back",
-                      onPressed: () => context.goNamed('complete_profile_one'),
+              SizedBox(
+                width: fieldWidth,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedBtn(
+                        text: "Go Back",
+                        onPressed: () => context.goNamed('complete_profile_one'),
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: FilledBtn(
-                      text: 'Next    >',
-                      onPressed: () => context.pushNamed('complete_profile_three'),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: FilledBtn(
+                        text: 'Next    >',
+                        onPressed: () => context.pushNamed('complete_profile_three'),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               const SizedBox(height: 20),
             ],

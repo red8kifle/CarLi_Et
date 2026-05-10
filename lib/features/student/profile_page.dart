@@ -52,7 +52,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => context.pushNamed('AuthCompleteProfileOne'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: primaryTeal,
                       foregroundColor: Colors.white,

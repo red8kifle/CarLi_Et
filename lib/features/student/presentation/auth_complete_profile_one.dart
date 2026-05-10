@@ -13,15 +13,19 @@ class AuthCompleteProfileOne extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final fieldWidth = screenWidth * 0.85;
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 10),
               Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   const Logo(height: 35),
                   const SizedBox(width: 10),
@@ -65,115 +69,99 @@ class AuthCompleteProfileOne extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 29),
-              Form(
-                child: Column(
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: 120,
-                          child: const ImageUploadBoxWidget(label: "Profile Image"),
-                        ),
-                        const SizedBox(width: 16),
-                        const Expanded(
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                width: double.infinity,
-                                child: InputField(
+              SizedBox(
+                width: fieldWidth,
+                child: Form(
+                  child: Column(
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            width: 120,
+                            height: 220,
+                            child: ImageUploadBoxWidget(label: "Profile Image"),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              children: const [
+                                InputField(
                                   label: "First Name",
                                   hintText: "Enter first name",
                                 ),
-                              ),
-                              const SizedBox(height: 16),
-                              SizedBox(
-                                width: double.infinity,
-                                child: InputField(
+                                SizedBox(height: 16),
+                                InputField(
                                   label: "Last Name",
                                   hintText: "Enter last name",
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 24),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            children: [
-                              DropdownField(
-                                label: 'University / Institution',
-                                hintText: "Choose university",
-                                items: const [
-                                  'Addis Ababa University',
-                                  'Jimma University',
-                                  'Unity University',
-                                  'Haramaya University',
-                                  'Adama Science and Technology University'
-                                ],
-                                selectedValue: null,
-                                onChanged: (value) {},
-                              ),
-                              const SizedBox(height: 16),
-                              const InputField(
-                                label: "Expected Year",
-                                hintText: "2018 E.C. / 2026 G.C.",
-                              ),
-                            ],
+                        ],
+                      ),
+                      const SizedBox(height: 24),
+                      const InputField(
+                        label: 'University / Institution',
+                        hintText: "Choose university",
+                      ),
+                      const SizedBox(height: 24),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: DropdownField(
+                              label: 'Year of Study',
+                              hintText: "1st Year",
+                              items: const [
+                                'Freshman (1st Year)',
+                                '2nd Year',
+                                '3rd Year',
+                                '4th Year',
+                                '5th Year'
+                              ],
+                              selectedValue: null,
+                              onChanged: (value) {},
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Column(
-                            children: [
-                              DropdownField(
-                                label: 'Year of Study',
-                                hintText: "1st Year",
-                                items: const [
-                                  'Freshman (1st Year)',
-                                  '2nd Year',
-                                  '3rd Year',
-                                  '4th Year',
-                                  '5th Year'
-                                ],
-                                selectedValue: null,
-                                onChanged: (value) {},
-                              ),
-                            ],
+                          const SizedBox(width: 16),
+                          const Expanded(
+                            child: InputField(
+                              label: "Expected Year",
+                              hintText: "2018 E.C. / 2026 G.C.",
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 24),
-                    const InputField(
-                      label: "Current GPA (Optional)",
-                      hintText: "GPA",
-                    ),
-                  ],
+                        ],
+                      ),
+                      const SizedBox(height: 24),
+                      const InputField(
+                        label: "Current GPA (Optional)",
+                        hintText: "GPA",
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: 40),
-              Row(
-                children: [
-                  Expanded(
-                    child: OutlinedBtn(
-                      text: "Go Back",
-                      onPressed: () => context.goNamed('student_signin'),
+              SizedBox(
+                width: fieldWidth,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedBtn(
+                        text: "Go Back",
+                        onPressed: () => context.goNamed('student_signin'),
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: FilledBtn(
-                      text: 'Next    >',
-                      onPressed: () => context.pushNamed('complete_profile_two'),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: FilledBtn(
+                        text: 'Next    >',
+                        onPressed: () => context.pushNamed('complete_profile_two'),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               const SizedBox(height: 20),
             ],
