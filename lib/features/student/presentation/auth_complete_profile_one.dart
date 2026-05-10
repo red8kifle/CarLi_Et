@@ -163,14 +163,14 @@ class AuthCompleteProfileOne extends StatelessWidget {
                   Expanded(
                     child: OutlinedBtn(
                       text: "Go Back",
-                      onPressed: () => context.pop(),
+                      onPressed: () => context.goNamed('student_signin'),
                     ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: FilledBtn(
                       text: 'Next    >',
-                      onPressed: () => context.push('/complete-profile-two'),
+                      onPressed: () => context.pushNamed('complete_profile_two'),
                     ),
                   ),
                 ],

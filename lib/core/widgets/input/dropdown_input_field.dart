@@ -42,14 +42,18 @@ class DropdownField extends StatelessWidget {
             // DROPDOWN
             DropdownButtonFormField<String>(
               initialValue: selectedValue,
+              isExpanded: true,
               items: items.map((item) {
                 return DropdownMenuItem(value: item, child: Text(item));
               }).toList(),
               onChanged: onChanged,
 
               decoration: InputDecoration(
-                hintText: hintText,
-                hintStyle: TextStyle(color: Colors.grey.shade500),
+                hint: Text(
+                  hintText,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(color: Colors.grey.shade500),
+                ),
 
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 16,
