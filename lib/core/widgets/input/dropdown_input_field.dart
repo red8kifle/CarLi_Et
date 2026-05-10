@@ -41,7 +41,7 @@ class DropdownField extends StatelessWidget {
 
             // DROPDOWN
             DropdownButtonFormField<String>(
-              value: selectedValue,
+              initialValue: selectedValue,
               items: items.map((item) {
                 return DropdownMenuItem(value: item, child: Text(item));
               }).toList(),

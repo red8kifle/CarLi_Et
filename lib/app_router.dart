@@ -1,6 +1,6 @@
+import 'package:go_router/go_router.dart';
 import 'package:carli_et/features/company/presentation/company_signup.dart';
 import 'package:carli_et/features/student/student_signup.dart';
-import 'package:go_router/go_router.dart';
 import 'package:carli_et/features/company/presentation/terms_policies.dart';
 import 'package:carli_et/features/student/profile_page.dart';
 import 'package:carli_et/features/home/presentation/home_screen.dart';
@@ -9,20 +9,23 @@ import 'package:carli_et/features/auth/presentation/forgot_password.dart';
 import 'package:carli_et/features/company/presentation/company_home_page.dart';
 import 'package:carli_et/features/company/presentation/company_profile.dart';
 import 'package:carli_et/features/company/presentation/company_profile_setup.dart';
-
 import 'package:carli_et/features/company/presentation/applicant_resume.dart';
 import 'package:carli_et/features/company/presentation/view_applicants.dart';
 import 'package:carli_et/features/company/presentation/view_internships.dart';
 import 'package:carli_et/features/company/presentation/post_internship_1.dart';
 import 'package:carli_et/features/company/presentation/post_internship_2.dart';
+import 'package:carli_et/features/student/presentation/student_home_page.dart';
+import 'package:carli_et/features/student/presentation/browse_internships_page.dart';
+
 
 final GoRouter appRouter = GoRouter(
   initialLocation: '/',
   routes: [
-    // ── Home─────────────────────────────────────────────
-    GoRoute(path: '/', name: 'home', builder: (context, state) => const Home()),
-
-    // ── Auth─────────────────────────────────────────────
+    GoRoute(
+      path: '/',
+      name: 'home',
+      builder: (context, state) => const Home(),
+    ),
     GoRoute(
       path: '/terms',
       name: 'terms',
@@ -43,8 +46,6 @@ final GoRouter appRouter = GoRouter(
       name: 'forgot_password',
       builder: (context, state) => const ForgotPassword(),
     ),
-
-    // ── Company ──────────────────────────────────────────
     GoRoute(
       path: '/company_signup',
       name: 'company_signup',
@@ -90,7 +91,6 @@ final GoRouter appRouter = GoRouter(
       name: 'applicant_resume',
       builder: (context, state) => const ApplicantResume(),
     ),
-    //____student_______________________________________________________________
     GoRoute(
       path: '/Student_signup',
       name: 'student_signup',
@@ -101,5 +101,16 @@ final GoRouter appRouter = GoRouter(
       name: 'profile',
       builder: (context, state) => const ProfileScreen(),
     ),
+    GoRoute(
+      path: '/student_home',
+      name: 'student_home',
+      builder: (context, state) => const StudentHomePage(),
+    ),
+    GoRoute(
+      path: '/browse_internships',
+      name: 'browse_internships',
+      builder: (context, state) => const BrowseInternshipsPage(),
+    ),
+    
   ],
 );
