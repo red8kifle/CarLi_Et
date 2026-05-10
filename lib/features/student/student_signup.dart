@@ -32,8 +32,6 @@ class _StudentSignupState extends State<StudentSignup> {
     }
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
