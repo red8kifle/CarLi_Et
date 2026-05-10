@@ -41,9 +41,12 @@ class Home extends StatelessWidget {
                 AuthButtons(
                   onStudentPressed: () => _onStudentPressed(context),
                   onCompanyPressed: () => _onCompanyPressed(context),
+      
                 ),
 
                 const SizedBox(height: 30),
+                
+               
 
                 GuestLink(onTap: () => context.goNamed('browse_as_guest')),
               ],
@@ -152,12 +155,25 @@ class GuestLink extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Text(
-        'Browse as Guest',
-        style: TextStyle(
-          fontSize: 20,
-          color: Colors.white.withOpacity(0.8),
-          decoration: TextDecoration.underline,
+      child: Container(
+        padding: const EdgeInsets.only(
+          bottom: 4, 
+        ),
+        decoration: const BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: Colors.white70, 
+              width: 1.0,          
+            ),
+          ),
+        ),
+        child: const Text(
+          'Browse as Guest',
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.white,
+            fontWeight: FontWeight(100),
+          ),
         ),
       ),
     );

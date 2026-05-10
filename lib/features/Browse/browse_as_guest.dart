@@ -11,7 +11,6 @@ class BrowseAsGuest extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            // TOP SECTION
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: Column(
@@ -25,9 +24,7 @@ class BrowseAsGuest extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-
                   const SizedBox(height: 35),
-
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -42,7 +39,6 @@ class BrowseAsGuest extends StatelessWidget {
                           ),
                         ),
                       ),
-
                       Column(
                         children: [
                           GestureDetector(
@@ -67,7 +63,6 @@ class BrowseAsGuest extends StatelessWidget {
                               ),
                             ),
                           ),
-
                           const SizedBox(height: 15),
 
                           GestureDetector(
@@ -99,8 +94,6 @@ class BrowseAsGuest extends StatelessWidget {
                 ],
               ),
             ),
-
-            // WHITE CONTAINER
             Expanded(
               child: Container(
                 width: double.infinity,
@@ -120,18 +113,16 @@ class BrowseAsGuest extends StatelessWidget {
                           itemCount: 6,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3,
-                                crossAxisSpacing: 12,
-                                mainAxisSpacing: 18,
-                                childAspectRatio: 0.45,
-                              ),
+                            crossAxisCount: 3,
+                            crossAxisSpacing: 12,
+                            mainAxisSpacing: 18,
+                            childAspectRatio: 0.45,
+                          ),
                           itemBuilder: (context, index) {
                             return const InstitutionCard();
                           },
                         ),
                       ),
-
-                      // BOTTOM NAV
                       Container(
                         height: 70,
                         decoration: BoxDecoration(
@@ -188,21 +179,16 @@ class InstitutionCard extends StatelessWidget {
             ),
           ),
         ),
-
         const SizedBox(height: 8),
-
         const Text(
           'Institution Name',
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
         ),
-
         const SizedBox(height: 4),
-
         const Text(
           'Institution Brief\nDescription',
           style: TextStyle(color: Colors.grey, fontSize: 11, height: 1.2),
         ),
-
         const SizedBox(height: 6),
 
         GestureDetector(

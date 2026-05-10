@@ -23,7 +23,11 @@ class SplitActionText extends StatelessWidget {
           ),
           TextSpan(
             text: actionText,
-            style: const TextStyle(color: Color(0xFF087E8B)),
+            style: const TextStyle(
+              color: Color(0xFF087E8B),
+              fontWeight: FontWeight.bold,
+              decoration: TextDecoration.underline,
+            ),
           ),
         ],
       ),

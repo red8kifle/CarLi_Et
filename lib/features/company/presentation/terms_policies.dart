@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carli_et/core/widgets/logo/carliet_logo.dart';
 import 'package:go_router/go_router.dart';
+import 'package:carli_et/core/widgets/text/split_action_text.dart';
 
 class TermsScreen extends StatefulWidget {
   const TermsScreen({super.key});
@@ -87,31 +88,29 @@ class _TermsScreenState extends State<TermsScreen> {
                 padding: const EdgeInsets.only(top: 10, bottom: 25),
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Transform.scale(
-                          scale: 0.9,
-                          child: Checkbox(
-                            value: isChecked,
-                            activeColor: const Color(0xFF087E8B),
-                            onChanged: (value) {
-                              setState(() {
-                                isChecked = value!;
-                              });
-                            },
-                          ),
-                        ),
-                        const Expanded(
-                          child: Text(
-                            "I have read and agreed to the Terms and Conditions.",
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.black87,
+                    Center(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min, // Corrected: groups elements together
+                        children: [
+                          Transform.scale(
+                            scale: 0.9,
+                            child: Checkbox(
+                              value: isChecked,
+                              activeColor: const Color(0xFF087E8B),
+                              onChanged: (value) {
+                                setState(() {
+                                  isChecked = value!;
+                                });
+                              },
                             ),
                           ),
-                        ),
-                      ],
+                          const SizedBox(width: 4), 
+                          SplitActionText(
+                            text: "I have read and agreed to the ",
+                            actionText: "Terms and Conditions.",
+                          ),
+                        ],
+                      ),
                     ),
 
                     const SizedBox(height: 18),
