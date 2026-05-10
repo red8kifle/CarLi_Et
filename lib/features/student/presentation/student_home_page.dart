@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/widgets/logo/carliet_logo.dart';
 import '../../../features/student/presentation/internship_details_page.dart';
-
+import 'dart:ui';
 
 class StudentHomePage extends StatelessWidget {
   const StudentHomePage({super.key});
@@ -13,13 +13,11 @@ class StudentHomePage extends StatelessWidget {
       backgroundColor: const Color(0xFFF5F5F5),
       bottomNavigationBar: const _BottomNavBar(),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const _HeaderSection(),
-              const _BodyContent(),
-            ],
-          ),
+        child: Column(
+          children: [
+            const _HeaderSection(),
+            const Expanded(child: _BodyContent()),
+          ],
         ),
       ),
     );
@@ -36,9 +34,7 @@ class _HeaderSection extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(20, 15, 20, 45),
-      decoration: const BoxDecoration(
-        color: Color(0xFF087E8B), 
-      ),
+      decoration: const BoxDecoration(color: Color(0xFF087E8B)),
       child: Column(
         children: [
           Row(
@@ -65,7 +61,7 @@ class _HeaderSection extends StatelessWidget {
                   ),
                 ],
               ),
-              
+
               Theme(
                 data: Theme.of(context).copyWith(
                   hoverColor: Colors.transparent,
@@ -73,7 +69,10 @@ class _HeaderSection extends StatelessWidget {
                 ),
                 child: PopupMenuButton<int>(
                   offset: const Offset(0, 55),
-                  constraints: const BoxConstraints(minWidth: 320, maxWidth: 320),
+                  constraints: const BoxConstraints(
+                    minWidth: 320,
+                    maxWidth: 320,
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
@@ -113,52 +112,67 @@ class _HeaderSection extends StatelessWidget {
               ),
             ],
           ),
-          
+
           const SizedBox(height: 35),
 
           Row(
             children: [
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 40), 
+                  padding: const EdgeInsets.only(left: 40),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
                         'Internship\nOpportunity',
                         style: TextStyle(
-                          fontSize: 34,
+                          fontSize: 30,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                           height: 1.1,
                         ),
                       ),
                       const SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: () {context.pushNamed('browse_internships');},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF08363B),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 25,
-                            vertical: 12,
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              context.pushNamed('browse_internships');
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white.withOpacity(0.15),
+                              shadowColor: Colors.transparent,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                side: BorderSide(
+                                  color: Colors.white.withOpacity(0.4),
+                                  width: 1,
+                                ),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 25,
+                                vertical: 12,
+                              ),
+                            ),
+                            child: const Text(
+                              'Browse Internships',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                           ),
                         ),
-                          
-                        child: const Text(
-                          'Browse Internships',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      
                       ),
                     ],
                   ),
                 ),
               ),
-              
+
               Padding(
                 padding: const EdgeInsets.only(right: 35),
                 child: Container(
@@ -173,7 +187,9 @@ class _HeaderSection extends StatelessWidget {
                   child: const CircleAvatar(
                     radius: 48,
                     backgroundColor: Colors.transparent,
-                    backgroundImage: AssetImage('assets/images/profile_placeholder.jpg'),
+                    backgroundImage: AssetImage(
+                      'assets/images/profile_placeholder.jpg',
+                    ),
                   ),
                 ),
               ),
@@ -201,15 +217,19 @@ class _HeaderSection extends StatelessWidget {
               Text(
                 companyName,
                 style: const TextStyle(
-                  fontWeight: FontWeight.bold, 
-                  fontSize: 14, 
-                  color: Colors.black87
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                  color: Colors.black87,
                 ),
               ),
               const SizedBox(height: 2),
               const Text(
                 "Your application on the 'Assistant Field Operation Technician'...",
-                style: TextStyle(fontSize: 11, color: Colors.black54, height: 1.3),
+                style: TextStyle(
+                  fontSize: 11,
+                  color: Colors.black54,
+                  height: 1.3,
+                ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -222,13 +242,14 @@ class _HeaderSection extends StatelessWidget {
           width: 32,
           height: 32,
           fit: BoxFit.contain,
-          errorBuilder: (context, error, stackTrace) => 
+          errorBuilder: (context, error, stackTrace) =>
               const Icon(Icons.business, size: 32, color: Colors.grey),
         ),
       ],
     );
   }
 }
+
 // Body section
 class _BodyContent extends StatelessWidget {
   const _BodyContent();
@@ -339,7 +360,7 @@ class _InstitutionCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: 160, 
+            height: 160,
             width: double.infinity,
             decoration: BoxDecoration(
               color: const Color(0xFFF8F8F8),
@@ -350,8 +371,8 @@ class _InstitutionCard extends StatelessWidget {
               child: Image.asset(
                 assetPath,
                 fit: BoxFit.contain,
-                errorBuilder: (context, error, stackTrace) => 
-                  const Icon(Icons.business, size: 40, color: Colors.grey),
+                errorBuilder: (context, error, stackTrace) =>
+                    const Icon(Icons.business, size: 40, color: Colors.grey),
               ),
             ),
           ),
@@ -359,7 +380,7 @@ class _InstitutionCard extends StatelessWidget {
           Text(
             name,
             style: const TextStyle(
-              fontSize: 12, 
+              fontSize: 12,
               fontWeight: FontWeight.bold,
               color: Colors.black87,
             ),
@@ -370,8 +391,8 @@ class _InstitutionCard extends StatelessWidget {
           Text(
             description,
             style: const TextStyle(
-              fontSize: 9, 
-              color: Colors.grey, 
+              fontSize: 9,
+              color: Colors.grey,
               height: 1.2,
             ),
             maxLines: 2,
@@ -406,7 +427,7 @@ class _InstitutionCard extends StatelessWidget {
                     ),
                   ),
                   child: const Text(
-                    "Apply", 
+                    "Apply",
                     style: TextStyle(color: Colors.white, fontSize: 8),
                   ),
                 ),
@@ -425,7 +446,7 @@ class _BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding( 
+    return Padding(
       padding: const EdgeInsets.fromLTRB(25, 0, 25, 30),
       child: Container(
         height: 70,
@@ -437,13 +458,12 @@ class _BottomNavBar extends StatelessWidget {
               color: Colors.black.withOpacity(0.2),
               blurRadius: 15,
               offset: const Offset(0, 8),
-            )
+            ),
           ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            
             IconButton(
               icon: const Icon(
                 Icons.grid_view_rounded,
@@ -455,32 +475,31 @@ class _BottomNavBar extends StatelessWidget {
               },
             ),
 
-            
             IconButton(
               onPressed: () {
                 context.pushNamed('student_home');
               },
               icon: Container(
-                padding: const EdgeInsets.all(8), 
-                decoration: const BoxDecoration(
-                  color: Colors.white,
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color:  Colors.transparent,
                   shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white, width: 2),
                 ),
                 child: const Icon(
                   Icons.home_rounded,
-                  color: Color(0xFF087E8B),
+                  color: Colors.white,
                   size: 26,
                 ),
               ),
             ),
 
-            
             IconButton(
               onPressed: () {
                 context.pushNamed('profile');
               },
               icon: const Icon(
-                Icons.groups_2_outlined,
+                Icons.people_alt_rounded,
                 color: Colors.white,
                 size: 30,
               ),
@@ -488,7 +507,6 @@ class _BottomNavBar extends StatelessWidget {
           ],
         ),
       ),
-    ); 
+    );
   }
 }
-

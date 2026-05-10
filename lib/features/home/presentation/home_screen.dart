@@ -13,10 +13,6 @@ class Home extends StatelessWidget {
     context.pushNamed('company_signin');
   }
 
-  void _onGuestPressed(BuildContext context) {
-    context.pushNamed('browse_as_guest');
-  }
-
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -50,8 +46,9 @@ class Home extends StatelessWidget {
 
                 const SizedBox(height: 30),
                 
-                GuestLink(onTap: () => _onGuestPressed(context)),
+               
 
+                GuestLink(onTap: () => context.goNamed('browse_as_guest')),
               ],
             ),
           ),

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/widgets/logo/carliet_logo.dart'; 
+import '../../../../core/widgets/logo/carliet_logo.dart';
 import '../../../features/student/presentation/internship_details_page.dart';
+
 class BrowseInternshipsPage extends StatelessWidget {
   const BrowseInternshipsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF087E8B), 
-      extendBody: true, 
+      backgroundColor: const Color(0xFF087E8B),
+      extendBody: true,
       body: SafeArea(
         bottom: false,
         child: Column(
@@ -41,7 +42,6 @@ class _BrowseHeader extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          
           Row(
             children: [
               ColorFiltered(
@@ -61,22 +61,26 @@ class _BrowseHeader extends StatelessWidget {
                         TextSpan(
                           text: 'CarLi_ET ',
                           style: TextStyle(
-                              color: Colors.white60,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16),
+                            color: Colors.white60,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
                         ),
                         TextSpan(
                           text: 'Internship',
                           style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16),
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  const Text('Management',
-                      style: TextStyle(color: Colors.white, fontSize: 12)),
+                  const Text(
+                    'Management',
+                    style: TextStyle(color: Colors.white, fontSize: 12),
+                  ),
                 ],
               ),
             ],
@@ -84,7 +88,6 @@ class _BrowseHeader extends StatelessWidget {
 
           const SizedBox(height: 25),
 
-          
           const Text(
             'Browse for Internships',
             style: TextStyle(
@@ -96,13 +99,11 @@ class _BrowseHeader extends StatelessWidget {
 
           const SizedBox(height: 15),
 
-          
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              
               SizedBox(
-                width: 140, 
+                width: 140,
                 height: 35,
                 child: const TextField(
                   style: TextStyle(color: Colors.white, fontSize: 12),
@@ -110,19 +111,21 @@ class _BrowseHeader extends StatelessWidget {
                   decoration: InputDecoration(
                     hintText: 'Search',
                     hintStyle: TextStyle(color: Colors.white70),
-                    prefixIcon:
-                        Icon(Icons.search, color: Colors.white, size: 16),
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Colors.white,
+                      size: 16,
+                    ),
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.symmetric(vertical: 8),
                   ),
                 ),
               ),
 
-              const SizedBox(width: 5), 
+              const SizedBox(width: 5),
 
-              
               const SizedBox(
-                width: 95, 
+                width: 95,
                 height: 30,
                 child: _CategoryFilterDropdown(),
               ),
@@ -134,12 +137,7 @@ class _BrowseHeader extends StatelessWidget {
   }
 }
 
-
-
-
-
-
-// Body section 
+// Body section
 
 class _BrowseBody extends StatelessWidget {
   const _BrowseBody({super.key});
@@ -147,7 +145,7 @@ class _BrowseBody extends StatelessWidget {
   final List<Map<String, String>> internshipData = const [
     {
       'company': 'Commercial Bank of Ethiopia',
-      'image': 'assets/images/CBE.jpg', 
+      'image': 'assets/images/CBE.jpg',
       'title': 'Summer Intern',
       'desc': "Join Ethiopia's first bank...",
       'loc': 'Addis Ababa',
@@ -213,11 +211,11 @@ class _BrowseBody extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(10, 20, 10, 100),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
-        childAspectRatio: 0.9, 
+        childAspectRatio: 0.9,
         crossAxisSpacing: 8,
         mainAxisSpacing: 12,
       ),
-      itemCount: 6, 
+      itemCount: 6,
       itemBuilder: (context, index) => _BrowseCard(data: internshipData[index]),
     );
   }
@@ -243,20 +241,29 @@ class _BrowseCard extends StatelessWidget {
           Text(
             data['company']!,
             maxLines: 1,
-            style: const TextStyle(color: Colors.black26, fontSize: 10, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+              color: Colors.black26,
+              fontSize: 10,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 12),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                width: 34, height: 34,
+                width: 34,
+                height: 34,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(4),
                   child: Image.asset(
-                    data['image']!, 
+                    data['image']!,
                     fit: BoxFit.contain,
-                    errorBuilder: (c, e, s) => const Icon(Icons.business, size: 34, color: Colors.grey),
+                    errorBuilder: (c, e, s) => const Icon(
+                      Icons.business,
+                      size: 34,
+                      color: Colors.grey,
+                    ),
                   ),
                 ),
               ),
@@ -265,9 +272,21 @@ class _BrowseCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(data['title']!, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold), maxLines: 1),
+                    Text(
+                      data['title']!,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: 1,
+                    ),
                     const SizedBox(height: 10),
-                    Text(data['desc']!, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 9, color: Colors.grey)),
+                    Text(
+                      data['desc']!,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontSize: 9, color: Colors.grey),
+                    ),
                     const SizedBox(height: 10),
                     _CompactDetail(icon: Icons.location_on, text: data['loc']!),
                     const SizedBox(height: 5),
@@ -281,10 +300,10 @@ class _BrowseCard extends StatelessWidget {
           Align(
             alignment: Alignment.bottomRight,
             child: SizedBox(
-              width: 50, height: 20,
+              width: 50,
+              height: 20,
               child: ElevatedButton(
                 onPressed: () {
-                  
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -295,14 +314,22 @@ class _BrowseCard extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF087E8B),
                   padding: EdgeInsets.zero,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
-                child: const Text("Apply now", style: TextStyle(fontSize: 8, color: Colors.white)),
+                child: const Text(
+                  "Apply now",
+                  style: TextStyle(fontSize: 8, color: Colors.white),
+                ),
               ),
             ),
           ),
           const SizedBox(height: 9),
-          Text('${data['tags']} • Posted Apr 8', style: const TextStyle(fontSize: 6, color: Colors.black38)),
+          Text(
+            '${data['tags']} • Posted Apr 8',
+            style: const TextStyle(fontSize: 6, color: Colors.black38),
+          ),
         ],
       ),
     );
@@ -315,11 +342,12 @@ class _CategoryFilterDropdown extends StatefulWidget {
   const _CategoryFilterDropdown();
 
   @override
-  State<_CategoryFilterDropdown> createState() => _CategoryFilterDropdownState();
+  State<_CategoryFilterDropdown> createState() =>
+      _CategoryFilterDropdownState();
 }
 
 class _CategoryFilterDropdownState extends State<_CategoryFilterDropdown> {
-  String selectedFilter = '  Filter by Category'; 
+  String selectedFilter = '  Filter by Category';
 
   @override
   Widget build(BuildContext context) {
@@ -328,13 +356,13 @@ class _CategoryFilterDropdownState extends State<_CategoryFilterDropdown> {
       padding: const EdgeInsets.symmetric(horizontal: 0),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(30), 
+        borderRadius: BorderRadius.circular(30),
       ),
       child: PopupMenuButton<String>(
         offset: const Offset(0, 45),
         onSelected: (String value) {
           setState(() {
-            selectedFilter = value; 
+            selectedFilter = value;
           });
         },
         child: Row(
@@ -344,14 +372,18 @@ class _CategoryFilterDropdownState extends State<_CategoryFilterDropdown> {
               child: Text(
                 selectedFilter,
                 style: const TextStyle(
-                  fontSize: 10, 
-                  fontWeight: FontWeight.bold, 
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
                   color: Color(0xFF011627),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
             ),
-            const Icon(Icons.keyboard_arrow_down, size: 18, color: Color(0xFF011627)),
+            const Icon(
+              Icons.keyboard_arrow_down,
+              size: 18,
+              color: Color(0xFF011627),
+            ),
           ],
         ),
         itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
@@ -383,9 +415,16 @@ class _CompactDetail extends StatelessWidget {
   const _CompactDetail({required this.icon, required this.text});
   @override
   Widget build(BuildContext context) {
-    return Row(children: [Icon(icon, size: 10, color: Colors.redAccent), const SizedBox(width: 3), Text(text, style: const TextStyle(fontSize: 7))]);
+    return Row(
+      children: [
+        Icon(icon, size: 10, color: Colors.redAccent),
+        const SizedBox(width: 3),
+        Text(text, style: const TextStyle(fontSize: 7)),
+      ],
+    );
   }
 }
+
 // Bottom navigation bar
 class _BottomNavBar extends StatelessWidget {
   const _BottomNavBar();
@@ -395,13 +434,53 @@ class _BottomNavBar extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(25, 0, 25, 30),
       child: Container(
         height: 70,
-        decoration: BoxDecoration(color: const Color(0xFF087E8B), borderRadius: BorderRadius.circular(35), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 15, offset: const Offset(0, 8))]),
+        decoration: BoxDecoration(
+          color: const Color(0xFF087E8B),
+          borderRadius: BorderRadius.circular(35),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              blurRadius: 15,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Container(padding: const EdgeInsets.all(12), decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle), child: const Icon(Icons.grid_view_rounded, color: Color(0xFF087E8B), size: 26)),
-            IconButton(icon: const Icon(Icons.home_outlined, color: Colors.white, size: 30), onPressed: () {context.pushNamed('student_home');}),
-            IconButton(icon: const Icon(Icons.groups_2_outlined, color: Colors.white, size: 30), onPressed: () {context.pushNamed('browse_internships');}),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.white, width: 2),
+              ),
+              child: const Icon(
+                Icons.grid_view_rounded,
+                color: Colors.white,
+                size: 26,
+              ),
+            ),
+            IconButton(
+              icon: const Icon(
+                Icons.home_outlined,
+                color: Colors.white,
+                size: 30,
+              ),
+              onPressed: () {
+                context.pushNamed('student_home');
+              },
+            ),
+            IconButton(
+              icon: const Icon(
+                Icons.people_alt_rounded,
+                color: Colors.white,
+                size: 30,
+              ),
+              onPressed: () {
+                context.pushNamed('profile');
+              },
+            ),
           ],
         ),
       ),

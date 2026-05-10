@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../core/widgets/buttons/outlined_btn.dart';
 
 class BrowseInternshipDetail extends StatelessWidget {
@@ -28,9 +29,7 @@ class BrowseInternshipDetail extends StatelessWidget {
                   Row(
                     children: [
                       IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
+                        onPressed: () => context.pop(),
                         icon: const Icon(Icons.arrow_back, color: Colors.white),
                       ),
 
@@ -201,8 +200,8 @@ class BrowseInternshipDetail extends StatelessWidget {
 
                     Center(
                       child: OutlinedBtn(
-                        text: 'Back to Home',
-                        onPressed: () {},
+                        text: ' < Back ',
+                        onPressed: () => context.goNamed('browse_as_guest'),
                       ),
                     ),
                   ],

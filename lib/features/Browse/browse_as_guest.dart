@@ -42,7 +42,7 @@ class BrowseAsGuest extends StatelessWidget {
                       Column(
                         children: [
                           GestureDetector(
-                            onTap: () => context.pushNamed('student_signin'),
+                            onTap: () => context.goNamed('student_signup'),
                             child: Container(
                               width: 150,
                               height: 52,
@@ -64,8 +64,9 @@ class BrowseAsGuest extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 15),
+
                           GestureDetector(
-                            onTap: () => context.pushNamed('company_signin'),
+                            onTap: () => context.goNamed('company_signup'),
                             child: Container(
                               width: 150,
                               height: 52,
@@ -189,9 +190,13 @@ class InstitutionCard extends StatelessWidget {
           style: TextStyle(color: Colors.grey, fontSize: 11, height: 1.2),
         ),
         const SizedBox(height: 6),
-        const Text(
-          'Read more...',
-          style: TextStyle(color: Colors.grey, fontSize: 10),
+
+        GestureDetector(
+          onTap: () => context.pushNamed('browse_internship_detail'),
+          child: const Text(
+            'Read more...',
+            style: TextStyle(color: Colors.grey, fontSize: 10),
+          ),
         ),
       ],
     );
