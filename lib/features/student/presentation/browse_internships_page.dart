@@ -400,8 +400,8 @@ class _BottomNavBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Container(padding: const EdgeInsets.all(12), decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle), child: const Icon(Icons.grid_view_rounded, color: Color(0xFF087E8B), size: 26)),
-            IconButton(icon: const Icon(Icons.home_outlined, color: Colors.white, size: 30), onPressed: () {context.goNamed('student_home');}),
-            IconButton(icon: const Icon(Icons.groups_2_outlined, color: Colors.white, size: 30), onPressed: () {context.goNamed('browse_internships');}),
+            IconButton(icon: const Icon(Icons.home_outlined, color: Colors.white, size: 30), onPressed: () {context.pushNamed('student_home');}),
+            IconButton(icon: const Icon(Icons.groups_2_outlined, color: Colors.white, size: 30), onPressed: () {context.pushNamed('browse_internships');}),
           ],
         ),
       ),

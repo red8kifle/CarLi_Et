@@ -135,7 +135,7 @@ class _HeaderSection extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       ElevatedButton(
-                        onPressed: () {context.goNamed('browse_internships');},
+                        onPressed: () {context.pushNamed('browse_internships');},
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF08363B),
                           shape: RoundedRectangleBorder(
@@ -451,14 +451,14 @@ class _BottomNavBar extends StatelessWidget {
                 size: 26,
               ),
               onPressed: () {
-                context.goNamed('browse_internships');
+                context.pushNamed('browse_internships');
               },
             ),
 
             
             IconButton(
               onPressed: () {
-                context.goNamed('student_home');
+                context.pushNamed('student_home');
               },
               icon: Container(
                 padding: const EdgeInsets.all(8), 
@@ -477,7 +477,7 @@ class _BottomNavBar extends StatelessWidget {
             
             IconButton(
               onPressed: () {
-                context.goNamed('profile');
+                context.pushNamed('profile');
               },
               icon: const Icon(
                 Icons.groups_2_outlined,
