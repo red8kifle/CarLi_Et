@@ -115,14 +115,14 @@ class AuthCompleteProfileThree extends StatelessWidget {
                   Expanded(
                     child: OutlinedBtn(
                       text: "Go Back",
-                      onPressed: () => context.pop(),
+                      onPressed: () => context.goNamed('complete_profile_two'),
                     ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: FilledBtn(
                       text: 'Next    >',
-                      onPressed: () {},
+                      onPressed: () => context.pushNamed('student_home'),
                     ),
                   ),
                 ],

@@ -1,21 +1,24 @@
 import 'package:go_router/go_router.dart';
-import 'package:carli_et/features/company/presentation/company_signup.dart';
-import 'package:carli_et/features/student/student_signup.dart';
-import 'package:carli_et/features/company/presentation/terms_policies.dart';
-import 'package:carli_et/features/student/profile_page.dart';
-import 'package:carli_et/features/home/presentation/home_screen.dart';
-import 'package:carli_et/features/auth/presentation/signin.dart';
-import 'package:carli_et/features/auth/presentation/forgot_password.dart';
-import 'package:carli_et/features/company/presentation/company_home_page.dart';
-import 'package:carli_et/features/company/presentation/company_profile.dart';
-import 'package:carli_et/features/company/presentation/company_profile_setup.dart';
-import 'package:carli_et/features/company/presentation/applicant_resume.dart';
-import 'package:carli_et/features/company/presentation/view_applicants.dart';
-import 'package:carli_et/features/company/presentation/view_internships.dart';
-import 'package:carli_et/features/company/presentation/post_internship_1.dart';
-import 'package:carli_et/features/company/presentation/post_internship_2.dart';
-import 'package:carli_et/features/student/presentation/student_home_page.dart';
-import 'package:carli_et/features/student/presentation/browse_internships_page.dart';
+import './features/company/presentation/company_signup.dart';
+import './features/student/student_signup.dart';
+import './features/company/presentation/terms_policies.dart';
+import './features/student/profile_page.dart';
+import './features/home/presentation/home_screen.dart';
+import './features/auth/presentation/signin.dart';
+import './features/auth/presentation/forgot_password.dart';
+import './features/company/presentation/company_home_page.dart';
+import './features/company/presentation/company_profile.dart';
+import './features/company/presentation/company_profile_setup.dart';
+import './features/company/presentation/applicant_resume.dart';
+import './features/company/presentation/view_applicants.dart';
+import './features/company/presentation/view_internships.dart';
+import './features/company/presentation/post_internship_1.dart';
+import './features/company/presentation/post_internship_2.dart';
+import './features/student/presentation/student_home_page.dart';
+import './features/student/presentation/browse_internships_page.dart';
+import './features/student/presentation/auth_complete_profile_one.dart';
+import './features/student/presentation/auth_complete_profile_two.dart';
+import './features/student/presentation/auth_complete_profile_three.dart';
 
 
 final GoRouter appRouter = GoRouter(
@@ -111,6 +114,20 @@ final GoRouter appRouter = GoRouter(
       name: 'browse_internships',
       builder: (context, state) => const BrowseInternshipsPage(),
     ),
-    
+    GoRoute(
+      path: '/complete_profile_one',
+      name: 'complete_profile_one',
+      builder: (context, state) => const AuthCompleteProfileOne(),
+    ),
+    GoRoute(
+      path: '/complete_profile_two',
+      name: 'complete_profile_two',
+      builder: (context, state) => const AuthCompleteProfileTwo(),
+    ),
+    GoRoute(
+      path: '/complete_profile_three',
+      name: 'complete_profile_three',
+      builder: (context, state) => const AuthCompleteProfileThree(),
+    ),
   ],
 );

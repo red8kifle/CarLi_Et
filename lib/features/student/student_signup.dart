@@ -21,7 +21,7 @@ class _StudentSignupState extends State<StudentSignup> {
 
   void _onCreateAccountPressed(BuildContext context) {
     if (_agreedToTerms) {
-      context.pushNamed('student_signin');
+      context.pushNamed('complete_profile_one');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
