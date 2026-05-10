@@ -15,6 +15,7 @@ class AuthCompleteProfileThree extends StatelessWidget {
     final fieldWidth = screenWidth * 0.85;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
