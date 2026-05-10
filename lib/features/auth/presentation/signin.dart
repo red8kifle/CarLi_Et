@@ -17,7 +17,7 @@ class Signin extends StatelessWidget {
 
   void _onLoginPressed(BuildContext context) {
     if (role == 'student') {
-      context.goNamed('home'); // change to student home when ready
+      context.goNamed('student_home');
     } else {
       context.goNamed('company_home');
     }
@@ -29,7 +29,7 @@ class Signin extends StatelessWidget {
 
   void _onCreateAccountPressed(BuildContext context) {
     if (role == 'student') {
-      context.pushNamed('student_signup'); 
+      context.pushNamed('student_signup');
     } else {
       context.pushNamed('company_signup');
     }
@@ -53,10 +53,7 @@ class Signin extends StatelessWidget {
                 hintText: 'Enter your Email / username',
               ),
               const SizedBox(height: 15),
-              const InputField(
-                label: 'Password',
-                hintText: 'Enter password',
-              ),
+              const InputField(label: 'Password', hintText: 'Enter password'),
               const SizedBox(height: 10),
 
               // Forgot Password
@@ -85,7 +82,6 @@ class Signin extends StatelessWidget {
                   actionText: "Create Account",
                 ),
               ),
-
             ],
           ),
         ),

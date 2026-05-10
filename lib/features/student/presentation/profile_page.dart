@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carli_et/core/widgets/logo/carliet_logo.dart';
 import 'package:go_router/go_router.dart';
+
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
@@ -52,7 +53,9 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.goNamed('complete_profile_one');
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: primaryTeal,
                       foregroundColor: Colors.white,
@@ -80,7 +83,11 @@ class ProfileScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(color: Colors.grey.shade300),
                     ),
-                    child: Icon(Icons.person, size: 60, color: Colors.grey.shade300),
+                    child: Icon(
+                      Icons.person,
+                      size: 60,
+                      color: Colors.grey.shade300,
+                    ),
                   ),
                   const SizedBox(width: 24),
                   Expanded(
@@ -89,25 +96,27 @@ class ProfileScreen extends StatelessWidget {
                       children: [
                         const Text(
                           "John Doe",
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        const Text("Male", style: TextStyle(color: Colors.grey)),
+                        const Text(
+                          "Male",
+                          style: TextStyle(color: Colors.grey),
+                        ),
                         const SizedBox(height: 12),
                         const Text(
                           "University / Institution",
-                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         const SizedBox(height: 8),
-                        TextField(
-                          decoration: InputDecoration(
-                            hintText: "University / Institution Name",
-                            isDense: true,
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25),
-                              borderSide: BorderSide(color: Colors.grey.shade200),
-                            ),
-                          ),
+                        const Text(
+                          "Addis Ababa University",
+                          style: TextStyle(fontSize: 13, color: Colors.grey),
                         ),
                       ],
                     ),
@@ -115,19 +124,32 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 30),
-              _buildUnderlineField("Expected Year of Graduation", "2016 E.C. / 2026 G.C."),
+              _buildUnderlineField(
+                "Expected Year of Graduation",
+                "2016 E.C. / 2026 G.C.",
+              ),
               _buildUnderlineField("Current GPA", "GPA"),
               _buildUnderlineField("Year of Study", "1st Year"),
               _buildUnderlineField("Skills", "Skills..."),
-              _buildUnderlineField("Previous Internships", "Previous Participated Internships"),
+              _buildUnderlineField(
+                "Previous Internships",
+                "Previous Participated Internships",
+              ),
               const SizedBox(height: 32),
               Text(
                 "Links",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: primaryTeal),
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: primaryTeal,
+                ),
               ),
               const SizedBox(height: 16),
               _buildUnderlineField("LinkedIn URL:", "LinkedIn URL"),
-              _buildUnderlineField("Portfolio / GitHub", "URL (Portfolio / GitHub)"),
+              _buildUnderlineField(
+                "Portfolio / GitHub",
+                "URL (Portfolio / GitHub)",
+              ),
               const SizedBox(height: 48),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -146,7 +168,11 @@ class ProfileScreen extends StatelessWidget {
       ),
       bottomNavigationBar: CustomBottomNavBar(
         currentIndex: 2,
-        onTap: (index) {},
+        onTap: (index) {
+          if (index == 0) context.goNamed('browse_internships');
+          if (index == 1) context.goNamed('student_home');
+          if (index == 2) context.goNamed('profile');
+        },
       ),
     );
   }
@@ -163,7 +189,11 @@ class ProfileScreen extends StatelessWidget {
         ),
         child: Text(
           label,
-          style: TextStyle(color: color, fontSize: 13, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: color,
+            fontSize: 13,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
@@ -176,7 +206,10 @@ class ProfileScreen extends StatelessWidget {
         children: [
           SizedBox(
             width: 140,
-            child: Text(label, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+            child: Text(
+              label,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+            ),
           ),
           Expanded(
             child: TextField(
@@ -184,8 +217,12 @@ class ProfileScreen extends StatelessWidget {
               decoration: InputDecoration(
                 hintText: hint,
                 hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 13),
-                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey.shade200)),
-                focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: primaryTeal)),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey.shade200),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: primaryTeal),
+                ),
               ),
             ),
           ),
@@ -231,16 +268,13 @@ class CustomBottomNavBar extends StatelessWidget {
     return GestureDetector(
       onTap: () => onTap(index),
       child: Container(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: isActive ? Colors.white : Colors.transparent,
+          color: Colors.transparent,
           shape: BoxShape.circle,
+          border: isActive ? Border.all(color: Colors.white, width: 2) : null,
         ),
-        child: Icon(
-          icon,
-          color: isActive ? const Color(0xFF087E8B) : Colors.white.withOpacity(0.9),
-          size: size,
-        ),
+        child: Icon(icon, color: Colors.white, size: size),
       ),
     );
   }

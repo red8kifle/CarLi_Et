@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class BrowseAsGuest extends StatelessWidget {
   const BrowseAsGuest({super.key});
@@ -44,21 +45,24 @@ class BrowseAsGuest extends StatelessWidget {
 
                       Column(
                         children: [
-                          Container(
-                            width: 150,
-                            height: 52,
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF005C5B),
-                              borderRadius: BorderRadius.circular(14),
-                            ),
-                            child: const Center(
-                              child: Text(
-                                'Get started\nas student',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
+                          GestureDetector(
+                            onTap: () => context.goNamed('student_signup'),
+                            child: Container(
+                              width: 150,
+                              height: 52,
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF005C5B),
+                                borderRadius: BorderRadius.circular(14),
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  'Get started\nas student',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ),
                             ),
@@ -66,21 +70,24 @@ class BrowseAsGuest extends StatelessWidget {
 
                           const SizedBox(height: 15),
 
-                          Container(
-                            width: 150,
-                            height: 52,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(14),
-                            ),
-                            child: const Center(
-                              child: Text(
-                                'Get started\nas Company',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Color(0xFF0A8785),
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
+                          GestureDetector(
+                            onTap: () => context.goNamed('company_signup'),
+                            child: Container(
+                              width: 150,
+                              height: 52,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(14),
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  'Get started\nas Company',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Color(0xFF0A8785),
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ),
                             ),
@@ -198,9 +205,12 @@ class InstitutionCard extends StatelessWidget {
 
         const SizedBox(height: 6),
 
-        const Text(
-          'Read more...',
-          style: TextStyle(color: Colors.grey, fontSize: 10),
+        GestureDetector(
+          onTap: () => context.pushNamed('browse_internship_detail'),
+          child: const Text(
+            'Read more...',
+            style: TextStyle(color: Colors.grey, fontSize: 10),
+          ),
         ),
       ],
     );
