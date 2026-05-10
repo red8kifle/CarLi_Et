@@ -38,6 +38,7 @@ class Signin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
+    final fieldWidth = MediaQuery.of(context).size.width * 0.85;
     return Center(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -60,10 +61,17 @@ class Signin extends StatelessWidget {
               const SizedBox(height: 10),
 
               // Forgot Password
-              GestureDetector(
-                onTap: () => context.pushNamed('forgot_password'),
-                child: const ActionText(text: 'Forgot password?'),
+              SizedBox(
+                width: fieldWidth,
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: GestureDetector(
+                    onTap: () => context.pushNamed('forgot_password'),
+                    child: const ActionText(text: 'Forgot password?'),
+                 ),
+                ),
               ),
+
 
               const SizedBox(height: 40),
               FilledBtn(
@@ -81,8 +89,8 @@ class Signin extends StatelessWidget {
               GestureDetector(
                 onTap: () => _onCreateAccountPressed(context),
                 child: const SplitActionText(
-                  text: "If you don't have an account ",
-                  actionText: "Create Account",
+                  text: "If you don't have an account, ",
+                  actionText: "Create new Account",
                 ),
               ),
 

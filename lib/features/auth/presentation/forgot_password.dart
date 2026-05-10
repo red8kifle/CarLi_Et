@@ -18,6 +18,7 @@ class ForgotPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width * 0.85;
     return Center(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -35,9 +36,15 @@ class ForgotPassword extends StatelessWidget {
               const SizedBox(height: 10),
 
               // Login with password - go back to signin
-              GestureDetector(
-                onTap: () => context.pop(),
-                child: const ActionText(text: 'Login with password'),
+              SizedBox(
+                width: screenWidth,
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: GestureDetector(
+                    onTap: () => context.pop(),
+                    child: const ActionText(text: 'Login with password'),
+                  ),
+                ),
               ),
 
               const SizedBox(height: 40),
