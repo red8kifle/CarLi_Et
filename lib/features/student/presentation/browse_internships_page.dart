@@ -224,9 +224,9 @@ class _BrowseBody extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(12, 16, 12, 100),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
-        childAspectRatio: 1.5,
-        crossAxisSpacing: 25,
-        mainAxisSpacing: 25,
+        childAspectRatio: 0.78,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
       ),
       itemCount: internshipData.length,
       itemBuilder: (context, index) => _BrowseCard(data: internshipData[index]),
@@ -267,13 +267,13 @@ class _BrowseCard extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 6),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                width: 40,
-                height: 40,
+                width: 35,
+                height: 35,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(6),
                   child: Image.asset(
@@ -281,13 +281,13 @@ class _BrowseCard extends StatelessWidget {
                     fit: BoxFit.cover,
                     errorBuilder: (c, e, s) => const Icon(
                       Icons.business,
-                      size: 40,
+                      size: 35,
                       color: Colors.grey,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: 5),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -295,27 +295,28 @@ class _BrowseCard extends StatelessWidget {
                     Text(
                       data['title']!,
                       style: const TextStyle(
-                        fontSize: 14,
+                        fontSize: 13,
                         fontWeight: FontWeight.bold,
                       ),
                       maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 2),
                     Text(
                       data['desc']!,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 10, color: Colors.grey),
+                      style: const TextStyle(fontSize: 9, color: Colors.grey),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 8),
                     _CompactDetail(
-                      icon: Icons.location_on, 
+                      icon: Icons.location_on,
                       text: data['loc']!,
                       iconColor: Colors.redAccent,
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 2),
                     _CompactDetail(
-                      icon: Icons.access_time, 
+                      icon: Icons.access_time,
                       text: data['dur']!,
                       iconColor: Colors.orange,
                     ),
@@ -329,22 +330,26 @@ class _BrowseCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${data['tags']}',
-                    style: const TextStyle(fontSize: 8, color: Colors.black38),
-                  ),
-                  const SizedBox(height: 2),
-                  const Text(
-                    'Posted Apr 8',
-                    style: TextStyle(fontSize: 8, color: Colors.black38),
-                  ),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${data['tags']}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontSize: 8, color: Colors.black38),
+                    ),
+                    const SizedBox(height: 2),
+                    const Text(
+                      'Posted Apr 8',
+                      style: TextStyle(fontSize: 8, color: Colors.black38),
+                    ),
+                  ],
+                ),
               ),
               SizedBox(
-                height: 28,
+                height: 26,
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(
@@ -358,14 +363,14 @@ class _BrowseCard extends StatelessWidget {
                     backgroundColor: const Color(0xFF087E8B),
                     foregroundColor: Colors.white,
                     elevation: 0,
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6),
                     ),
                   ),
                   child: const Text(
                     "Apply now",
-                    style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
