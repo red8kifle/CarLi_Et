@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/widgets/logo/carliet_logo.dart';
 import '../../../core/widgets/text/app_title.dart';
@@ -10,8 +11,8 @@ import '../../../core/widgets/input/input_field.dart';
 class ForgotPassword extends StatelessWidget {
   const ForgotPassword({super.key});
 
-  void _onResetPressed() {
-    print("Reset email");
+  void _onResetPressed(BuildContext context) {
+    context.pop(); // go back after reset
   }
 
   @override
@@ -19,31 +20,40 @@ class ForgotPassword extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     return Center(
       child: Scaffold(
-        body: Column(
-          children: [
-            SizedBox(height: screenHeight * 0.09),
-            Header(),
-            SizedBox(height: screenHeight * 0.04),
-            AuthSubtitle(text: 'Reset your password'),
-            SizedBox(height: screenHeight * 0.03),
-            InputField(
-              label: 'Email/username',
-              hintText: 'Enter your Email / username',
-            ),
-            SizedBox(height: 10),
-            ActionText(text: 'Login with password'),
-            SizedBox(height: 40),
-            FilledBtn(text: 'Reset', onPressed: _onResetPressed),
-          ],
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: screenHeight * 0.09),
+              const Header(),
+              SizedBox(height: screenHeight * 0.04),
+              const AuthSubtitle(text: 'Reset your password'),
+              SizedBox(height: screenHeight * 0.03),
+              const InputField(
+                label: 'Email/username',
+                hintText: 'Enter your Email / username',
+              ),
+              const SizedBox(height: 10),
+
+              // Login with password - go back to signin
+              GestureDetector(
+                onTap: () => context.pop(),
+                child: const ActionText(text: 'Login with password'),
+              ),
+
+              const SizedBox(height: 40),
+              FilledBtn(
+                text: 'Reset',
+                onPressed: () => _onResetPressed(context),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-
-//_____________________________________________
-
+//─────────────────────────────────────────────────────────────────
 class Header extends StatelessWidget {
   const Header({super.key});
 

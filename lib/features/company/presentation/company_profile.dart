@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:carli_et/core/widgets/buttons/filled_btn.dart';
 
 class CompanyProfile extends StatelessWidget {
@@ -61,7 +62,11 @@ class CompanyProfile extends StatelessWidget {
                     color: Color(0xFF087E8B),
                   ),
                 ),
-                FilledBtn(text: 'Edit Profile', width: 120, onPressed: () {}),
+                FilledBtn(
+                  text: 'Edit Profile',
+                  width: 120,
+                  onPressed: () => context.pushNamed('company_profile_setup'),
+                ),
               ],
             ),
 
@@ -95,7 +100,7 @@ class CompanyProfile extends StatelessWidget {
                   ],
                 ),
 
-                const SizedBox(width: 20),
+                const SizedBox(width: 10),
 
                 // Company Detail
                 const Column(
@@ -173,10 +178,10 @@ class CompanyProfile extends StatelessWidget {
               ),
             ),
 
-            // SPACER SO BUTTONS SHOW ONLY ON SCROLL ─────
+            // Spacer─────
             const SizedBox(height: 300),
 
-            //LOGOUT + DELETE BUTTONS ───────────────────
+            //Logout delete button ───────────────────
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -184,7 +189,7 @@ class CompanyProfile extends StatelessWidget {
                 SizedBox(
                   width: 130,
                   child: OutlinedButton(
-                    onPressed: () {},
+                    onPressed: () => context.pushNamed('home'),
                     style: OutlinedButton.styleFrom(
                       backgroundColor: Colors.white,
                       foregroundColor: const Color(0xFF087E8B),
@@ -207,7 +212,7 @@ class CompanyProfile extends StatelessWidget {
                 SizedBox(
                   width: 150,
                   child: OutlinedButton(
-                    onPressed: () {},
+                    onPressed: () => context.pushNamed('home'),
                     style: OutlinedButton.styleFrom(
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.red,
@@ -257,7 +262,7 @@ class CompanyProfile extends StatelessWidget {
                   color: Colors.white,
                   size: 28,
                 ),
-                onPressed: () {},
+                onPressed: () => context.pushNamed('view_applicants'),
               ),
 
               // Middle Icon
@@ -267,22 +272,25 @@ class CompanyProfile extends StatelessWidget {
                   color: Colors.white,
                   size: 28,
                 ),
-                onPressed: () {},
+                onPressed: () => context.pushNamed('company_home'),
               ),
 
               // Right Icon
-              Container(
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 2),
-                ),
-                child: const Icon(
-                  Icons.bar_chart_outlined,
-                  color: Colors.white,
-                  size: 28,
+              GestureDetector(
+                onTap: () => context.pushNamed('company_profile'),
+                child: Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.white, width: 2),
+                  ),
+                  child: const Icon(
+                    Icons.bar_chart_outlined,
+                    color: Colors.white,
+                    size: 28,
+                  ),
                 ),
               ),
             ],

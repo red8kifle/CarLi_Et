@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:go_router/go_router.dart';
 // shared widgets
 import '../../../core/widgets/buttons/outlined_btn.dart';
 import '../../../core/widgets/logo/carliet_logo.dart';
@@ -11,12 +11,12 @@ import '../../../core/widgets/input/input_field.dart';
 class PostInternship1 extends StatelessWidget {
   const PostInternship1({super.key});
 
-  void _onNextPressed() {
-    print("Next");
+  void _onNextPressed(BuildContext context) {
+    context.pushNamed('post_internship_2');
   }
 
-  void _onGoBackPressed() {
-    print("Go Back");
+  void _onGoBackPressed(BuildContext context) {
+    context.pop();
   }
 
   @override
@@ -24,52 +24,54 @@ class PostInternship1 extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     return Center(
       child: Scaffold(
-        body: Column(
-          children: [
-            SizedBox(height: 35),
-            Header(),
-            SizedBox(height: screenHeight * 0.03),
-            AuthSubtitle(text: 'Enter Internship Info', fontSize: 24),
-            SizedBox(height: screenHeight * 0.007),
-            InputField(
-              label: 'Internship Title',
-              hintText: 'Enter internship title',
-            ),
-            SizedBox(height: 15),
-            InputField(label: 'Company Name', hintText: 'Enter company name'),
-            SizedBox(height: 15),
-            InputField(label: 'Location', hintText: 'Enter your location'),
-            SizedBox(height: 15),
-            InputField(
-              label: 'Internship Type',
-              hintText: 'Enter internship type',
-            ),
-            SizedBox(height: 30),
-
-            InputField(label: 'Required skills', hintText: 'React, js, ..'),
-
-            SizedBox(height: 30),
-            Padding(
-              padding: const EdgeInsets.only(right: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  OutlinedBtn(
-                    text: 'Go Back',
-                    onPressed: _onGoBackPressed,
-                    width: 130,
-                  ),
-                  SizedBox(width: 10),
-                  FilledBtn(
-                    text: 'Next',
-                    onPressed: _onNextPressed,
-                    width: 130,
-                  ),
-                ],
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: 35),
+              Header(),
+              SizedBox(height: screenHeight * 0.03),
+              AuthSubtitle(text: 'Enter Internship Info', fontSize: 24),
+              SizedBox(height: screenHeight * 0.007),
+              InputField(
+                label: 'Internship Title',
+                hintText: 'Enter internship title',
               ),
-            ),
-            SizedBox(height: 10),
-          ],
+              SizedBox(height: 15),
+              InputField(label: 'Company Name', hintText: 'Enter company name'),
+              SizedBox(height: 15),
+              InputField(label: 'Location', hintText: 'Enter your location'),
+              SizedBox(height: 15),
+              InputField(
+                label: 'Internship Type',
+                hintText: 'Enter internship type',
+              ),
+              SizedBox(height: 30),
+
+              InputField(label: 'Required skills', hintText: 'React, js, ..'),
+
+              SizedBox(height: 30),
+              Padding(
+                padding: const EdgeInsets.only(right: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    OutlinedBtn(
+                      text: 'Go Back',
+                      onPressed: () => _onGoBackPressed(context),
+                      width: 130,
+                    ),
+                    SizedBox(width: 10),
+                    FilledBtn(
+                      text: 'Next',
+                      onPressed: () => _onNextPressed(context),
+                      width: 130,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 10),
+            ],
+          ),
         ),
       ),
     );
@@ -99,5 +101,3 @@ class Header extends StatelessWidget {
     );
   }
 }
-
-

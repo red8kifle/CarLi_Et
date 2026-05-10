@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ViewInternships extends StatelessWidget {
   const ViewInternships({super.key});
@@ -7,9 +8,12 @@ class ViewInternships extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const Icon(Icons.arrow_back, color: Color(0xFF087E8B)),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Color(0xFF087E8B)),
+          onPressed: () => context.goNamed('company_home'),
+        ),
         title: const Padding(
-          padding: EdgeInsets.only(top: 30),
+          padding: EdgeInsets.fromLTRB(0, 30, 0, 30),
           child: Text(
             "My Internships",
             style: TextStyle(
@@ -19,6 +23,7 @@ class ViewInternships extends StatelessWidget {
           ),
         ),
       ),
+
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
@@ -31,13 +36,20 @@ class ViewInternships extends StatelessWidget {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(
+                      color: Color(0xFF087E8B),
+                      width: 2,
+                    ),
+                  ),
                 ),
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 40),
             Expanded(
               child: ListView.builder(
-                itemCount: 5,
+                itemCount: 4,
                 itemBuilder: (context, index) {
                   return SizedBox(
                     height: 120,
@@ -57,10 +69,14 @@ class ViewInternships extends StatelessWidget {
                         subtitle: const Text("Internship Description"),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            Icon(Icons.edit),
-                            SizedBox(width: 8),
-                            Icon(Icons.delete),
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.edit),
+                              onPressed: () =>
+                                  context.pushNamed('post_internship_1'),
+                            ),
+                            const SizedBox(width: 8),
+                            const Icon(Icons.delete),
                           ],
                         ),
                       ),

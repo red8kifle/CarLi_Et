@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ViewApplicants extends StatelessWidget {
   const ViewApplicants({super.key});
@@ -10,7 +11,10 @@ class ViewApplicants extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        leading: const Icon(Icons.arrow_back, color: Color(0xFF087E8B)),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Color(0xFF087E8B)),
+          onPressed: () => context.goNamed('company_home'),
+        ),
         title: const Text(
           "Applicants",
           style: TextStyle(
@@ -50,7 +54,7 @@ class ViewApplicants extends StatelessWidget {
             //  List of Applicants
             Expanded(
               child: ListView.builder(
-                itemCount: 4,
+                itemCount: 3,
                 itemBuilder: (context, index) {
                   return ApplicantCard();
                 },
@@ -121,7 +125,7 @@ class ApplicantCard extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: OutlinedButton.icon(
-              onPressed: () {},
+              onPressed: () => context.pushNamed('applicant_resume'),
               icon: const Icon(
                 Icons.description_outlined,
                 size: 18,
