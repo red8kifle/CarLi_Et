@@ -30,7 +30,6 @@ class ApplicationLocalDataSource {
 
   Future<bool> isCacheFresh() async {
     if (kIsWeb) return false;
-    // Simple implementation - always return false for now
     return false;
   }
 }

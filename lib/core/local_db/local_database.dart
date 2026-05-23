@@ -27,12 +27,12 @@ class LocalDatabase {
 
     return await openDatabase(
       path,
-      version: 2, // Increased version number to trigger migration
+      version: 2, 
       onCreate: (db, version) async {
         await _createTables(db);
       },
       onUpgrade: (db, oldVersion, newVersion) async {
-        // If upgrading from version 1 to 2, add missing columns
+        
         if (oldVersion < 2) {
           try {
             await db.execute(
@@ -47,12 +47,12 @@ class LocalDatabase {
   }
 
   static Future<void> _createTables(Database db) async {
-    // Drop existing tables if they exist (for clean start)
+    
     await db.execute('DROP TABLE IF EXISTS cached_internships');
     await db.execute('DROP TABLE IF EXISTS cached_applications');
     await db.execute('DROP TABLE IF EXISTS cache_meta');
 
-    // Create internships table with correct schema
+    
     await db.execute('''
       CREATE TABLE cached_internships (
         id INTEGER PRIMARY KEY,
@@ -72,7 +72,7 @@ class LocalDatabase {
       )
     ''');
 
-    // Create applications table
+    
     await db.execute('''
       CREATE TABLE cached_applications (
         id INTEGER PRIMARY KEY,
@@ -91,7 +91,7 @@ class LocalDatabase {
       )
     ''');
 
-    // Create cache meta table
+    
     await db.execute('''
       CREATE TABLE cache_meta (
         key TEXT PRIMARY KEY,

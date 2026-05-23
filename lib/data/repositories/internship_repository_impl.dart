@@ -16,7 +16,7 @@ class InternshipRepositoryImpl implements InternshipRepository {
     String? location,
     String? type,
   }) async {
-    // Skip cache on web or if having issues
+   
     if (kIsWeb) {
       final fresh = await remote.getAll(
         search: search,
@@ -43,18 +43,18 @@ class InternshipRepositoryImpl implements InternshipRepository {
           .toList();
     }
 
-    // Always fetch fresh data - skip cache for now to avoid errors
+    
     final fresh = await remote.getAll(
       search: search,
       location: location,
       type: type,
     );
 
-    // Try to cache but don't fail if error - FIXED: use cacheInternships, not cache
+    
     try {
       await local.cacheInternships(
         fresh,
-      ); // ← Changed from cache() to cacheInternships()
+      ); 
     } catch (e) {
       print('Cache error (ignored): $e');
     }

@@ -252,7 +252,7 @@ class _BrowseAsGuestState extends ConsumerState<BrowseAsGuest> {
   }
 }
 
-// Updated InstitutionCard to use real internship data
+
 class _InstitutionCard extends StatelessWidget {
   final InternshipEntity internship;
 
