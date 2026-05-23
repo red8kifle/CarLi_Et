@@ -1,11 +1,31 @@
+import 'package:carli_et/domain/entities/internship_entity.dart';
+import 'package:carli_et/features/Browse_as_guest/browse_internship_detail.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../features/internships/application/internship_notifier.dart';
 
-class BrowseAsGuest extends StatelessWidget {
+class BrowseAsGuest extends ConsumerStatefulWidget {
   const BrowseAsGuest({super.key});
 
   @override
+  ConsumerState<BrowseAsGuest> createState() => _BrowseAsGuestState();
+}
+
+class _BrowseAsGuestState extends ConsumerState<BrowseAsGuest> {
+  @override
+  void initState() {
+    super.initState();
+    // Load internships from backend when page opens
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(internshipNotifierProvider.notifier).fetchAll();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final internshipsState = ref.watch(internshipNotifierProvider);
+
     return Scaffold(
       backgroundColor: const Color(0xFF0A8785),
       body: SafeArea(
@@ -64,7 +84,6 @@ class BrowseAsGuest extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 15),
-
                           GestureDetector(
                             onTap: () => context.goNamed('company_signup'),
                             child: Container(
@@ -109,17 +128,89 @@ class BrowseAsGuest extends StatelessWidget {
                   child: Column(
                     children: [
                       Expanded(
-                        child: GridView.builder(
-                          itemCount: 6,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            crossAxisSpacing: 12,
-                            mainAxisSpacing: 18,
-                            childAspectRatio: 0.45,
+                        child: internshipsState.when(
+                          loading: () => const Center(
+                            child: CircularProgressIndicator(
+                              color: Color(0xFF0A8785),
+                            ),
                           ),
-                          itemBuilder: (context, index) {
-                            return const InstitutionCard();
+                          error: (e, _) => Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.error_outline,
+                                  size: 48,
+                                  color: Colors.grey,
+                                ),
+                                const SizedBox(height: 12),
+                                Text(
+                                  'Error loading internships: $e',
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(color: Colors.grey),
+                                ),
+                                const SizedBox(height: 16),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    ref
+                                        .read(
+                                          internshipNotifierProvider.notifier,
+                                        )
+                                        .fetchAll();
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFF0A8785),
+                                  ),
+                                  child: const Text(
+                                    'Retry',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          data: (internships) {
+                            if (internships.isEmpty) {
+                              return const Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.work_outline,
+                                      size: 48,
+                                      color: Colors.grey,
+                                    ),
+                                    SizedBox(height: 12),
+                                    Text(
+                                      'No internships available.',
+                                      style: TextStyle(color: Colors.grey),
+                                    ),
+                                    SizedBox(height: 8),
+                                    Text(
+                                      'Check back later!',
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                            return GridView.builder(
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    crossAxisSpacing: 12,
+                                    mainAxisSpacing: 18,
+                                    childAspectRatio: 0.55,
+                                  ),
+                              itemCount: internships.length,
+                              itemBuilder: (context, index) {
+                                final internship = internships[index];
+                                return _InstitutionCard(internship: internship);
+                              },
+                            );
                           },
                         ),
                       ),
@@ -138,10 +229,13 @@ class BrowseAsGuest extends StatelessWidget {
                               border: Border.all(color: Colors.white, width: 6),
                               color: const Color(0xFF0A8785),
                             ),
-                            child: const Icon(
-                              Icons.home_outlined,
-                              color: Colors.white,
-                              size: 32,
+                            child: IconButton(
+                              icon: const Icon(
+                                Icons.home_outlined,
+                                color: Colors.white,
+                                size: 32,
+                              ),
+                              onPressed: () => context.goNamed('home'),
                             ),
                           ),
                         ),
@@ -158,47 +252,97 @@ class BrowseAsGuest extends StatelessWidget {
   }
 }
 
-class InstitutionCard extends StatelessWidget {
-  const InstitutionCard({super.key});
+// Updated InstitutionCard to use real internship data
+class _InstitutionCard extends StatelessWidget {
+  final InternshipEntity internship;
+
+  const _InstitutionCard({required this.internship});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          height: 110,
-          decoration: BoxDecoration(
-            color: const Color(0xFFE5E5E5),
-            borderRadius: BorderRadius.circular(12),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => BrowseInternshipDetail(internship: internship),
           ),
-          child: const Center(
-            child: Text(
-              'Institution LOGO',
-              style: TextStyle(color: Colors.grey, fontSize: 11),
+        );
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: 110,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: const Color(0xFF087E8B).withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Center(
+              child: Text(
+                internship.companyName.isNotEmpty
+                    ? internship.companyName[0].toUpperCase()
+                    : '?',
+                style: const TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF087E8B),
+                ),
+              ),
             ),
           ),
-        ),
-        const SizedBox(height: 8),
-        const Text(
-          'Institution Name',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-        ),
-        const SizedBox(height: 4),
-        const Text(
-          'Institution Brief\nDescription',
-          style: TextStyle(color: Colors.grey, fontSize: 11, height: 1.2),
-        ),
-        const SizedBox(height: 6),
-
-        GestureDetector(
-          onTap: () => context.pushNamed('browse_internship_detail'),
-          child: const Text(
-            'Read more...',
-            style: TextStyle(color: Colors.grey, fontSize: 10),
+          const SizedBox(height: 8),
+          Text(
+            internship.companyName,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
-        ),
-      ],
+          const SizedBox(height: 4),
+          Text(
+            internship.title,
+            style: const TextStyle(
+              color: Colors.grey,
+              fontSize: 11,
+              height: 1.2,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(height: 6),
+          Row(
+            children: [
+              const Icon(Icons.location_on, size: 10, color: Colors.grey),
+              const SizedBox(width: 2),
+              Expanded(
+                child: Text(
+                  internship.location,
+                  style: const TextStyle(color: Colors.grey, fontSize: 9),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+            decoration: BoxDecoration(
+              color: const Color(0xFF087E8B).withOpacity(0.1),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Text(
+              internship.type,
+              style: const TextStyle(
+                fontSize: 8,
+                color: Color(0xFF087E8B),
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

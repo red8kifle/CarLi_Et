@@ -1,11 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../application/company_profile_provider.dart';
+import '../../auth/application/auth_notifier.dart';
 
-class CompanyHomePage extends StatelessWidget {
+class CompanyHomePage extends ConsumerWidget {
   const CompanyHomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final profileData = ref.watch(companyProfileProvider);
+    final authState = ref.watch(authNotifierProvider);
+    final user = authState.value;
+
+    final companyName =
+        profileData['company_name'] ?? user?.fullName ?? 'Company Name';
+    final location = profileData['location'] ?? 'Location not set';
+    final firstLetter = companyName.isNotEmpty
+        ? companyName[0].toUpperCase()
+        : 'C';
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -19,37 +33,10 @@ class CompanyHomePage extends StatelessWidget {
             fontSize: 20,
           ),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: Stack(
-              children: [
-                const Icon(
-                  Icons.notifications_outlined,
-                  color: Colors.white,
-                  size: 28,
-                ),
-                Positioned(
-                  right: 0,
-                  top: 0,
-                  child: Container(
-                    width: 8,
-                    height: 8,
-                    decoration: const BoxDecoration(
-                      color: Colors.red,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
       ),
       body: Stack(
         children: [
           Container(height: 200, color: const Color(0xFF087E8B)),
-
           Column(
             children: [
               Padding(
@@ -68,39 +55,45 @@ class CompanyHomePage extends StatelessWidget {
                         color: Colors.white,
                         shape: BoxShape.circle,
                       ),
-                      child: ClipOval(
-                        child: Image.asset(
-                          'assets/images/ethiotelecom.jpg',
-                          fit: BoxFit.contain,
+                      child: Center(
+                        child: Text(
+                          firstLetter,
+                          style: const TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF087E8B),
+                          ),
                         ),
                       ),
                     ),
-
                     const SizedBox(width: 16),
-
-                    const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Ethio telecom',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            companyName,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          'Addis Ababa, Ethiopia',
-                          style: TextStyle(color: Colors.white70, fontSize: 13),
-                        ),
-                      ],
+                          const SizedBox(height: 4),
+                          Text(
+                            location,
+                            style: const TextStyle(
+                              color: Colors.white70,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
-
-              // ────────────────────────
               Expanded(
                 child: Container(
                   width: double.infinity,
@@ -122,11 +115,13 @@ class CompanyHomePage extends StatelessWidget {
                         label: 'Post Internship',
                         onTap: () => context.pushNamed('post_internship_1'),
                       ),
+                      const SizedBox(height: 16),
                       _MenuButton(
                         icon: Icons.person_outline,
                         label: 'View Applicants',
                         onTap: () => context.pushNamed('view_applicants'),
                       ),
+                      const SizedBox(height: 16),
                       _MenuButton(
                         icon: Icons.list_outlined,
                         label: 'View Internships',
@@ -140,7 +135,6 @@ class CompanyHomePage extends StatelessWidget {
           ),
         ],
       ),
-      //bottom nav bar
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
         child: Container(
@@ -148,18 +142,10 @@ class CompanyHomePage extends StatelessWidget {
           decoration: BoxDecoration(
             color: const Color(0xFF087E8B),
             borderRadius: BorderRadius.circular(40),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                blurRadius: 12,
-                offset: const Offset(0, 4),
-              ),
-            ],
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              // left icon
               IconButton(
                 icon: const Icon(
                   Icons.people_outline,
@@ -168,15 +154,12 @@ class CompanyHomePage extends StatelessWidget {
                 ),
                 onPressed: () => context.pushNamed('view_applicants'),
               ),
-
-              // middle icon
               GestureDetector(
-                 onTap: () => context.pushNamed('company_home'),
+                onTap: () => context.pushNamed('company_home'),
                 child: Container(
                   width: 48,
                   height: 48,
                   decoration: BoxDecoration(
-                    color: Colors.transparent,
                     shape: BoxShape.circle,
                     border: Border.all(color: Colors.white, width: 2),
                   ),
@@ -187,15 +170,13 @@ class CompanyHomePage extends StatelessWidget {
                   ),
                 ),
               ),
-
-              // right icon
               IconButton(
                 icon: const Icon(
                   Icons.bar_chart_outlined,
                   color: Colors.white,
                   size: 28,
                 ),
-               onPressed: () => context.pushNamed('company_profile'),
+                onPressed: () => context.pushNamed('company_profile'),
               ),
             ],
           ),
@@ -204,8 +185,6 @@ class CompanyHomePage extends StatelessWidget {
     );
   }
 }
-
-//___________________________________________________________________
 
 class _MenuButton extends StatelessWidget {
   final IconData icon;
@@ -228,7 +207,7 @@ class _MenuButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.grey.shade200, width: 1),
+          border: Border.all(color: Colors.grey.shade200),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.07),

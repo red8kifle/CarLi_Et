@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../../core/widgets/text/split_action_text.dart';
+import '../application/auth_notifier.dart';
 import '../../../core/widgets/input/input_field.dart';
 import '../../../core/widgets/buttons/filled_btn.dart';
 import '../../../core/widgets/buttons/outlined_btn.dart';
@@ -9,108 +9,88 @@ import '../../../core/widgets/logo/carliet_logo.dart';
 import '../../../core/widgets/text/app_title.dart';
 import '../../../core/widgets/text/auth_subtitel.dart';
 import '../../../core/widgets/text/action_text.dart';
+import '../../../core/widgets/text/split_action_text.dart';
 
-class Signin extends StatelessWidget {
-  final String role; // student or company
-
+class Signin extends ConsumerStatefulWidget {
+  final String role;
   const Signin({super.key, required this.role});
 
-  void _onLoginPressed(BuildContext context) {
-    if (role == 'student') {
-      context.goNamed('student_home');
-    } else {
-      context.goNamed('company_home');
+  @override
+  ConsumerState<Signin> createState() => _SigninState();
+}
+
+class _SigninState extends ConsumerState<Signin> {
+  final _emailCtrl = TextEditingController();
+  final _passwordCtrl = TextEditingController();
+  bool _isLoading = false;
+
+  Future<void> _onLoginPressed() async {
+    if (_emailCtrl.text.isEmpty || _passwordCtrl.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter email and password'), backgroundColor: Colors.red));
+      return;
     }
-  }
 
-  void _onGoBackPressed(BuildContext context) {
-    context.pop();
-  }
-
-  void _onCreateAccountPressed(BuildContext context) {
-    if (role == 'student') {
-      context.pushNamed('student_signup');
-    } else {
-      context.pushNamed('company_signup');
+    setState(() => _isLoading = true);
+    try {
+      await ref.read(authNotifierProvider.notifier).login(_emailCtrl.text.trim(), _passwordCtrl.text, widget.role);
+      if (mounted) {
+        final user = ref.read(authNotifierProvider).value;
+        if (user?.isStudent == true) {
+          context.goNamed('student_home');
+        } else if (user?.isCompany == true) {
+          context.goNamed('company_home');
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString().replaceFirst('Exception: ', '')), backgroundColor: Colors.red));
+      }
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final fieldWidth = MediaQuery.of(context).size.width * 0.85;
-    return Center(
-      child: Scaffold(
-        body: SingleChildScrollView(
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Column(
             children: [
               SizedBox(height: screenHeight * 0.09),
-              const Header(),
+              const Center(child: Column(children: [Logo(), SizedBox(height: 1), AppTitle(fontSize: 22)])),
               SizedBox(height: screenHeight * 0.04),
               const AuthSubtitle(text: 'Sign into your account'),
               SizedBox(height: screenHeight * 0.03),
-              const InputField(
-                label: 'Email/username',
-                hintText: 'Enter your Email / username',
-              ),
+              InputField(label: 'Email', hintText: 'Enter your email', controller: _emailCtrl),
               const SizedBox(height: 15),
-              const InputField(label: 'Password', hintText: 'Enter password'),
+              InputField(label: 'Password', hintText: 'Enter password', controller: _passwordCtrl, obscureText: true),
               const SizedBox(height: 10),
-
-              // Forgot Password
               SizedBox(
-                width: fieldWidth,
+                width: MediaQuery.of(context).size.width * 0.85,
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: GestureDetector(
                     onTap: () => context.pushNamed('forgot_password'),
                     child: const ActionText(text: 'Forgot password?'),
-                 ),
+                  ),
                 ),
               ),
-
-
               const SizedBox(height: 40),
-              FilledBtn(
-                text: 'Login',
-                onPressed: () => _onLoginPressed(context),
-              ),
+              _isLoading
+                  ? const CircularProgressIndicator(color: Color(0xFF087E8B))
+                  : FilledBtn(text: 'Login', onPressed: _onLoginPressed),
               const SizedBox(height: 10),
-              OutlinedBtn(
-                text: 'Go Back',
-                onPressed: () => _onGoBackPressed(context),
-              ),
+              OutlinedBtn(text: 'Go Back', onPressed: () => context.pop()),
               const SizedBox(height: 30),
-
-              // Create Account
               GestureDetector(
-                onTap: () => _onCreateAccountPressed(context),
-                child: const SplitActionText(
-                  text: "If you don't have an account, ",
-                  actionText: "Create new Account",
-                ),
+                onTap: () => context.pushNamed(widget.role == 'student' ? 'student_signup' : 'company_signup'),
+                child: SplitActionText(text: "If you don't have an account, ", actionText: "Create new Account"),
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-//─────────────────────────────────────────────────────────────────
-class Header extends StatelessWidget {
-  const Header({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Column(
-        children: [
-          Logo(),
-          SizedBox(height: 1),
-          AppTitle(fontSize: 22, textAlign: TextAlign.center),
-        ],
       ),
     );
   }

@@ -1,11 +1,33 @@
+import 'package:carli_et/domain/entities/internship_entity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/widgets/logo/carliet_logo.dart';
-import '../../../features/student/presentation/internship_details_page.dart';
 import 'dart:ui';
 
-class StudentHomePage extends StatelessWidget {
+import '../../../core/widgets/logo/carliet_logo.dart';
+import '../../internships/application/internship_notifier.dart';
+
+import '../../auth/application/auth_notifier.dart';
+import '../../applications/application/application_notifier.dart';
+import '../application/student_profile_provider.dart';
+import 'internship_details_page.dart';
+
+class StudentHomePage extends ConsumerStatefulWidget {
   const StudentHomePage({super.key});
+
+  @override
+  ConsumerState<StudentHomePage> createState() => _StudentHomePageState();
+}
+
+class _StudentHomePageState extends ConsumerState<StudentHomePage> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(internshipNotifierProvider.notifier).fetchAll();
+      ref.read(applicationNotifierProvider.notifier).fetchMyApplications();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +46,24 @@ class StudentHomePage extends StatelessWidget {
   }
 }
 
-// header section
-
-class _HeaderSection extends StatelessWidget {
+class _HeaderSection extends ConsumerWidget {
   const _HeaderSection();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final profileData = ref.watch(studentProfileProvider);
+    final authState = ref.watch(authNotifierProvider);
+    final user = authState.value;
+
+    final firstName =
+        profileData['firstName'] ??
+        user?.fullName?.split(' ').first ??
+        'Student';
+
+    final applicationsState = ref.watch(applicationNotifierProvider);
+    final pendingCount =
+        applicationsState.value?.where((a) => a.isPending).length ?? 0;
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(20, 15, 20, 45),
@@ -56,65 +89,44 @@ class _HeaderSection extends StatelessWidget {
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
-                      letterSpacing: 0.5,
                     ),
                   ),
                 ],
               ),
-
-              Theme(
-                data: Theme.of(context).copyWith(
-                  hoverColor: Colors.transparent,
-                  splashColor: Colors.transparent,
-                ),
-                child: PopupMenuButton<int>(
-                  offset: const Offset(0, 55),
-                  constraints: const BoxConstraints(
-                    minWidth: 320,
-                    maxWidth: 320,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  icon: const Icon(
+              Stack(
+                children: [
+                  const Icon(
                     Icons.notifications_none_rounded,
                     color: Colors.white,
                     size: 28,
                   ),
-                  itemBuilder: (context) => [
-                    PopupMenuItem(
-                      enabled: false,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 15, top: 10),
-                            child: Text(
-                              "Notifications",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                color: Colors.black,
-                              ),
+                  if (pendingCount > 0)
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      child: Container(
+                        width: 16,
+                        height: 16,
+                        decoration: const BoxDecoration(
+                          color: Colors.red,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Center(
+                          child: Text(
+                            '$pendingCount',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
                             ),
                           ),
-                          _buildNotificationItem("Ethiotelecom"),
-                          const Divider(height: 25),
-                          _buildNotificationItem("Ethiotelecom"),
-                          const Divider(height: 25),
-                          _buildNotificationItem("Ethiotelecom"),
-                          const SizedBox(height: 10),
-                        ],
+                        ),
                       ),
                     ),
-                  ],
-                ),
+                ],
               ),
             ],
           ),
-
           const SizedBox(height: 35),
-
           Row(
             children: [
               Expanded(
@@ -123,13 +135,20 @@ class _HeaderSection extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Text(
+                        'Hello, $firstName ',
+                        style: const TextStyle(
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
                       const Text(
                         'Internship\nOpportunity',
                         style: TextStyle(
-                          fontSize: 30,
+                          fontSize: 26,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
-                          height: 1.1,
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -138,19 +157,12 @@ class _HeaderSection extends StatelessWidget {
                         child: BackdropFilter(
                           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                           child: ElevatedButton(
-                            onPressed: () {
-                              context.pushNamed('browse_internships');
-                            },
+                            onPressed: () =>
+                                context.pushNamed('browse_internships'),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.white.withOpacity(0.15),
-                              shadowColor: Colors.transparent,
-                              elevation: 0,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20),
-                                side: BorderSide(
-                                  color: Colors.white.withOpacity(0.4),
-                                  width: 1,
-                                ),
                               ),
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 25,
@@ -159,11 +171,7 @@ class _HeaderSection extends StatelessWidget {
                             ),
                             child: const Text(
                               'Browse Internships',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
+                              style: TextStyle(color: Colors.white),
                             ),
                           ),
                         ),
@@ -172,23 +180,21 @@ class _HeaderSection extends StatelessWidget {
                   ),
                 ),
               ),
-
-              Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: const Color(0xFFE5A93D),
-                      width: 5,
-                    ),
-                  ),
-                  child: const CircleAvatar(
-                    radius: 48,
-                    backgroundColor: Colors.transparent,
-                    backgroundImage: AssetImage(
-                      'assets/images/profile_placeholder.jpg',
+              Container(
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: const Color(0xFFE5A93D), width: 5),
+                ),
+                child: CircleAvatar(
+                  radius: 48,
+                  backgroundColor: Colors.white,
+                  child: Text(
+                    firstName.isNotEmpty ? firstName[0].toUpperCase() : 'S',
+                    style: const TextStyle(
+                      fontSize: 36,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF087E8B),
                     ),
                   ),
                 ),
@@ -199,63 +205,17 @@ class _HeaderSection extends StatelessWidget {
       ),
     );
   }
-
-  Widget _buildNotificationItem(String companyName) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Padding(
-          padding: EdgeInsets.only(top: 6),
-          child: Icon(Icons.circle, color: Color(0xFF087E8B), size: 8),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                companyName,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                  color: Colors.black87,
-                ),
-              ),
-              const SizedBox(height: 2),
-              const Text(
-                "Your application on the 'Assistant Field Operation Technician'...",
-                style: TextStyle(
-                  fontSize: 11,
-                  color: Colors.black54,
-                  height: 1.3,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(width: 10),
-        Image.asset(
-          'assets/images/ethiotelecom.jpg',
-          width: 32,
-          height: 32,
-          fit: BoxFit.contain,
-          errorBuilder: (context, error, stackTrace) =>
-              const Icon(Icons.business, size: 32, color: Colors.grey),
-        ),
-      ],
-    );
-  }
 }
 
-// body section
-class _BodyContent extends StatelessWidget {
+// BODY CONTENT
+
+class _BodyContent extends ConsumerWidget {
   const _BodyContent();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final internshipsState = ref.watch(internshipNotifierProvider);
+
     return Transform.translate(
       offset: const Offset(0, -25),
       child: Container(
@@ -267,100 +227,142 @@ class _BodyContent extends StatelessWidget {
             topRight: Radius.circular(30),
           ),
         ),
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(10, 30, 10, 20),
-          child: Column(
-            children: [
-              _buildCardRow([
-                const _InstitutionCard(
-                  name: "Ethio telecom",
-                  description: "Africa's pioneer telecom provider...",
-                  assetPath: 'assets/images/ethiotelecom.jpg',
-                ),
-                const _InstitutionCard(
-                  name: "CBE",
-                  description: "Leading bank in Ethiopia...",
-                  assetPath: 'assets/images/CBE.jpg',
-                ),
-                const _InstitutionCard(
-                  name: "Ride",
-                  description: "Business solutions to poverty...",
-                  assetPath: 'assets/images/ride.jpg',
-                ),
-              ]),
-              const SizedBox(height: 30),
-              _buildCardRow([
-                const _InstitutionCard(
-                  name: "Ethiopian Airlines",
-                  description: "Transforming lives with tech...",
-                  assetPath: 'assets/images/airlines.jpg',
-                ),
-                const _InstitutionCard(
-                  name: "Google",
-                  description: "The choice for tomorrow...",
-                  assetPath: 'assets/images/google.jpg',
-                ),
-                const _InstitutionCard(
-                  name: "Dashen",
-                  description: "Always one step ahead...",
-                  assetPath: 'assets/images/dashen.jpg',
-                ),
-              ]),
-            ],
+        child: internshipsState.when(
+          loading: () => const Center(
+            child: Padding(
+              padding: EdgeInsets.all(24),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(color: Color(0xFF087E8B)),
+                  SizedBox(height: 12),
+                  Text(
+                    'Loading internships...',
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
-    );
-  }
+          error: (e, _) => Center(
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                  const SizedBox(height: 12),
+                  Text(
+                    'Error: $e',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: Colors.grey),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () => ref
+                        .read(internshipNotifierProvider.notifier)
+                        .fetchAll(),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF087E8B),
+                    ),
+                    child: const Text(
+                      'Retry',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          data: (internships) {
+            if (internships.isEmpty) {
+              return const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(24),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.work_outline, size: 48, color: Colors.grey),
+                      SizedBox(height: 12),
+                      Text(
+                        'No internships available.',
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        'Check back later!',
+                        style: TextStyle(color: Colors.grey, fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
 
-  Widget _buildCardRow(List<Widget> cards) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: cards.map((card) => Expanded(child: card)).toList(),
-    );
-  }
-}
+            // Show only first 6 internships on home page
+            final displayInternships = internships.length > 6
+                ? internships.sublist(0, 6)
+                : internships;
 
-class _InstitutionCard extends StatelessWidget {
-  final String name;
-  final String description;
-  final String assetPath;
+            // Display in rows of 2
+            final chunks = <List<InternshipEntity>>[];
+            for (int i = 0; i < displayInternships.length; i += 2) {
+              chunks.add(
+                displayInternships.sublist(
+                  i,
+                  i + 2 > displayInternships.length
+                      ? displayInternships.length
+                      : i + 2,
+                ),
+              );
+            }
 
-  const _InstitutionCard({
-    required this.name,
-    required this.description,
-    required this.assetPath,
-  });
-
-  void _navigateToDetails(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => InternshipDetailsPage(
-          data: {
-            'company': name,
-            'image': assetPath,
-            'title': 'Internship Program',
-            'desc': description,
-            'loc': 'Addis Ababa',
-            'dur': '3 Months',
-            'sal': 'Paid',
-            'tags': '#Engineering #Tech',
+            return SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(10, 30, 10, 20),
+              child: Column(
+                children: chunks
+                    .map(
+                      (row) => Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: Row(
+                          children: row
+                              .map(
+                                (internship) => Expanded(
+                                  child: _InternshipCard(
+                                    internship: internship,
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      ),
+                    )
+                    .toList(),
+              ),
+            );
           },
         ),
       ),
     );
   }
+}
+
+// INDIVIDUAL INTERNSHIP CARD
+
+class _InternshipCard extends ConsumerWidget {
+  final InternshipEntity internship;
+  const _InternshipCard({required this.internship});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 4),
+      margin: const EdgeInsets.symmetric(horizontal: 6),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Company Logo Placeholder
           Container(
-            height: 160,
+            height: 140,
             width: double.infinity,
             decoration: BoxDecoration(
               color: const Color(0xFFF8F8F8),
@@ -368,17 +370,24 @@ class _InstitutionCard extends StatelessWidget {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Image.asset(
-                assetPath,
-                fit: BoxFit.contain,
-                errorBuilder: (context, error, stackTrace) =>
-                    const Icon(Icons.business, size: 40, color: Colors.grey),
+              child: Center(
+                child: Text(
+                  internship.companyName.isNotEmpty
+                      ? internship.companyName[0].toUpperCase()
+                      : '?',
+                  style: const TextStyle(
+                    fontSize: 48,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF087E8B),
+                  ),
+                ),
               ),
             ),
           ),
           const SizedBox(height: 10),
+          // Company Name
           Text(
-            name,
+            internship.companyName,
             style: const TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.bold,
@@ -388,10 +397,11 @@ class _InstitutionCard extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
           const SizedBox(height: 4),
+          // Internship Title
           Text(
-            description,
+            internship.title,
             style: const TextStyle(
-              fontSize: 9,
+              fontSize: 10,
               color: Colors.grey,
               height: 1.2,
             ),
@@ -399,14 +409,23 @@ class _InstitutionCard extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
           const SizedBox(height: 12),
+          // Read more and Apply buttons
           Row(
             children: [
               GestureDetector(
-                onTap: () => _navigateToDetails(context),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) =>
+                          InternshipDetailsPage(internship: internship),
+                    ),
+                  );
+                },
                 child: const Text(
                   "Read more",
                   style: TextStyle(
-                    fontSize: 8,
+                    fontSize: 9,
                     color: Color(0xFF087E8B),
                     fontWeight: FontWeight.bold,
                     decoration: TextDecoration.underline,
@@ -415,20 +434,20 @@ class _InstitutionCard extends StatelessWidget {
               ),
               const Spacer(),
               SizedBox(
-                height: 24,
+                height: 26,
                 child: ElevatedButton(
-                  onPressed: () => _navigateToDetails(context),
+                  onPressed: () => _showApplyDialog(context, ref),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
                     elevation: 0,
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6),
                     ),
                   ),
                   child: const Text(
                     "Apply",
-                    style: TextStyle(color: Colors.white, fontSize: 8),
+                    style: TextStyle(color: Colors.white, fontSize: 9),
                   ),
                 ),
               ),
@@ -438,8 +457,79 @@ class _InstitutionCard extends StatelessWidget {
       ),
     );
   }
+
+  void _showApplyDialog(BuildContext context, WidgetRef ref) {
+    final coverCtrl = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Apply to ${internship.title}'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              internship.companyName,
+              style: const TextStyle(color: Colors.grey, fontSize: 12),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: coverCtrl,
+              maxLines: 4,
+              decoration: const InputDecoration(
+                hintText: 'Cover letter (optional)',
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF087E8B),
+            ),
+            onPressed: () async {
+              Navigator.pop(ctx);
+              final success = await ref
+                  .read(applicationNotifierProvider.notifier)
+                  .apply(
+                    internship.id,
+                    coverLetter: coverCtrl.text.trim().isEmpty
+                        ? null
+                        : coverCtrl.text.trim(),
+                  );
+
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      success
+                          ? 'Application submitted successfully!'
+                          : 'Failed to apply. You may have already applied.',
+                    ),
+                    backgroundColor: success ? Colors.green : Colors.red,
+                  ),
+                );
+
+                if (success) {
+                  // Refresh applications count
+                  ref
+                      .read(applicationNotifierProvider.notifier)
+                      .fetchMyApplications();
+                }
+              }
+            },
+            child: const Text('Submit', style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
+    );
+  }
 }
-// bottom navigation bar
 
 class _BottomNavBar extends StatelessWidget {
   const _BottomNavBar();
@@ -449,7 +539,7 @@ class _BottomNavBar extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(25, 0, 25, 30),
       child: Container(
-        height: 70,
+        height: 65,
         decoration: BoxDecoration(
           color: const Color(0xFF087E8B),
           borderRadius: BorderRadius.circular(35),
@@ -464,45 +554,33 @@ class _BottomNavBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            // Browse Internships
             IconButton(
               icon: const Icon(
                 Icons.grid_view_rounded,
                 color: Colors.white,
                 size: 26,
               ),
-              onPressed: () {
-                context.pushNamed('browse_internships');
-              },
+              onPressed: () => context.pushNamed('browse_internships'),
             ),
 
-            IconButton(
-              onPressed: () {
-                context.pushNamed('student_home');
-              },
-              icon: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 2),
-                ),
-                child: const Icon(
-                  Icons.home_rounded,
-                  color: Colors.white,
-                  size: 26,
-                ),
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.white, width: 2),
               ),
-            ),
-
-            IconButton(
-              onPressed: () {
-                context.pushNamed('profile');
-              },
-              icon: const Icon(
-                Icons.people_alt_rounded,
+              child: const Icon(
+                Icons.home_rounded,
                 color: Colors.white,
-                size: 30,
+                size: 26,
               ),
+            ),
+            // Profile
+            IconButton(
+              onPressed: () => context.pushNamed('profile'),
+              icon: const Icon(Icons.person, color: Colors.white, size: 28),
             ),
           ],
         ),

@@ -1,537 +1,417 @@
+import 'package:carli_et/domain/entities/internship_entity.dart';
+import 'package:carli_et/features/applications/application/application_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/widgets/logo/carliet_logo.dart';
-import '../../../features/student/presentation/internship_details_page.dart';
+import '../../../core/widgets/logo/carliet_logo.dart';
+import '../../internships/application/internship_notifier.dart';
+import 'internship_details_page.dart';
 
-class BrowseInternshipsPage extends StatelessWidget {
+class BrowseInternshipsPage extends ConsumerStatefulWidget {
   const BrowseInternshipsPage({super.key});
 
   @override
+  ConsumerState<BrowseInternshipsPage> createState() =>
+      _BrowseInternshipsPageState();
+}
+
+class _BrowseInternshipsPageState extends ConsumerState<BrowseInternshipsPage> {
+  final TextEditingController _searchCtrl = TextEditingController();
+  String _selectedType = 'All';
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(internshipNotifierProvider.notifier).fetchAll();
+    });
+  }
+
+  void _performSearch() {
+    final type = _selectedType == 'All' ? null : _selectedType;
+    final query = _searchCtrl.text.trim().isEmpty
+        ? null
+        : _searchCtrl.text.trim();
+    ref
+        .read(internshipNotifierProvider.notifier)
+        .fetchAll(search: query, type: type);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final internshipsState = ref.watch(internshipNotifierProvider);
+
     return Scaffold(
       backgroundColor: const Color(0xFF087E8B),
-      extendBody: true,
       body: SafeArea(
-        bottom: false,
         child: Column(
           children: [
-            const _BrowseHeader(),
+            Container(
+              padding: const EdgeInsets.fromLTRB(16, 14, 16, 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      ColorFiltered(
+                        colorFilter: const ColorFilter.mode(
+                          Colors.white,
+                          BlendMode.srcIn,
+                        ),
+                        child: const Logo(height: 44),
+                      ),
+                      const SizedBox(width: 10),
+                      const Text(
+                        'Browse Internships',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const Spacer(),
+                      IconButton(
+                        icon: const Icon(Icons.home, color: Colors.white),
+                        onPressed: () => context.goNamed('student_home'),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _searchCtrl,
+                          onSubmitted: (_) => _performSearch(),
+                          style: const TextStyle(color: Colors.black),
+                          decoration: InputDecoration(
+                            hintText: 'Search by title, company...',
+                            hintStyle: const TextStyle(color: Colors.grey),
+                            prefixIcon: const Icon(
+                              Icons.search,
+                              color: Colors.grey,
+                            ),
+                            suffixIcon: _searchCtrl.text.isNotEmpty
+                                ? IconButton(
+                                    icon: const Icon(
+                                      Icons.clear,
+                                      color: Colors.grey,
+                                    ),
+                                    onPressed: () {
+                                      _searchCtrl.clear();
+                                      _performSearch();
+                                    },
+                                  )
+                                : null,
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        height: 48,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            value: _selectedType,
+                            icon: const Icon(Icons.keyboard_arrow_down),
+                            items: const [
+                              DropdownMenuItem(
+                                value: 'All',
+                                child: Text('All'),
+                              ),
+                              DropdownMenuItem(
+                                value: 'Remote',
+                                child: Text('Remote'),
+                              ),
+                              DropdownMenuItem(
+                                value: 'On-site',
+                                child: Text('On-site'),
+                              ),
+                              DropdownMenuItem(
+                                value: 'Hybrid',
+                                child: Text('Hybrid'),
+                              ),
+                            ],
+                            onChanged: (value) {
+                              if (value != null) {
+                                setState(() => _selectedType = value);
+                                _performSearch();
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
             Expanded(
               child: Container(
                 width: double.infinity,
                 color: Colors.white,
-                child: const _BrowseBody(),
-              ),
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: const _BottomNavBar(),
-    );
-  }
-}
-
-//───────────────────────────────────────────────────────────────────
-
-class _BrowseHeader extends StatelessWidget {
-  const _BrowseHeader();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Logo row
-          Row(
-            children: [
-              ColorFiltered(
-                colorFilter: const ColorFilter.mode(
-                  Colors.white,
-                  BlendMode.srcIn,
-                ),
-                child: const Logo(height: 44),
-              ),
-              const SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  RichText(
-                    text: const TextSpan(
+                child: internshipsState.when(
+                  loading: () => const Center(
+                    child: CircularProgressIndicator(color: Color(0xFF087E8B)),
+                  ),
+                  error: (e, _) => Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        TextSpan(
-                          text: 'CarLi_ET ',
-                          style: TextStyle(
-                            color: Colors.white60,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
+                        const Icon(Icons.error, size: 48, color: Colors.grey),
+                        const SizedBox(height: 12),
+                        Text(
+                          'Error: $e',
+                          style: const TextStyle(color: Colors.grey),
                         ),
-                        TextSpan(
-                          text: 'Internship',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: _performSearch,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF087E8B),
+                          ),
+                          child: const Text(
+                            'Retry',
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const Text(
-                    'Management',
-                    style: TextStyle(color: Colors.white70, fontSize: 11),
-                  ),
-                ],
+                  data: (internships) {
+                    if (internships.isEmpty) {
+                      return const Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.search_off,
+                              size: 64,
+                              color: Colors.grey,
+                            ),
+                            SizedBox(height: 16),
+                            Text(
+                              'No internships found',
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                    return ListView.builder(
+                      padding: const EdgeInsets.all(16),
+                      itemCount: internships.length,
+                      itemBuilder: (ctx, index) =>
+                          _InternshipCard(internship: internships[index]),
+                    );
+                  },
+                ),
               ),
-            ],
-          ),
-          const SizedBox(height: 25),
-          const Text(
-            'Browse for Internships',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
             ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
+        child: Container(
+          height: 60,
+          decoration: BoxDecoration(
+            color: const Color(0xFF087E8B),
+            borderRadius: BorderRadius.circular(30),
           ),
-          const SizedBox(height: 15),
-          Row(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Container(
-                width: 160,
-                height: 38,
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: const TextField(
-                  style: TextStyle(color: Colors.white, fontSize: 12),
-                  cursorColor: Colors.white,
-                  decoration: InputDecoration(
-                    hintText: 'Search',
-                    hintStyle: TextStyle(color: Colors.white70),
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: Colors.white,
-                      size: 16,
-                    ),
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(vertical: 10),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Container(
-                width: 180,
-                height: 38,
-                padding: const EdgeInsets.symmetric(horizontal: 4),
-                decoration: BoxDecoration(
+              IconButton(
+                icon: const Icon(
+                  Icons.grid_view_rounded,
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 4,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
+                  size: 26,
                 ),
-                child: const Center(
-                  child: _CategoryFilterDropdown(),
+                onPressed: () {},
+              ),
+              IconButton(
+                icon: const Icon(
+                  Icons.home_outlined,
+                  color: Colors.white,
+                  size: 28,
                 ),
+                onPressed: () => context.goNamed('student_home'),
+              ),
+              IconButton(
+                icon: const Icon(Icons.person, color: Colors.white, size: 28),
+                onPressed: () => context.goNamed('profile'),
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }
 }
 
-//─────────────────────────────────────────────────────────────────────
-
-class _BrowseBody extends StatelessWidget {
-  const _BrowseBody();
-
-  final List<Map<String, String>> internshipData = const [
-    {
-      'company': 'Commercial Bank of Ethiopia',
-      'image': 'assets/images/CBE.jpg',
-      'title': 'Summer Intern',
-      'desc': "Join Ethiopia's first bank...",
-      'loc': 'Addis Ababa',
-      'dur': '8–12 wks',
-      'sal': 'N/A',
-      'tags': '#Finance #Banking',
-    },
-    {
-      'company': 'Ethiotelecom',
-      'image': 'assets/images/ethiotelecom.jpg',
-      'title': 'Network Engineer',
-      'desc': 'Support 5G infrastructure rollout...',
-      'loc': 'Remote/Addis',
-      'dur': '6 months',
-      'sal': 'Paid',
-      'tags': '#Telecom #Tech',
-    },
-    {
-      'company': 'Ethiopian Airlines',
-      'image': 'assets/images/airlines.jpg',
-      'title': 'Logistics Intern',
-      'desc': 'Analyze supply chain efficiency...',
-      'loc': 'Bole, Addis',
-      'dur': '3 months',
-      'sal': 'Competitive',
-      'tags': '#Aviation #Logistics',
-    },
-    {
-      'company': 'Google Africa',
-      'image': 'assets/images/google.jpg',
-      'title': 'Software Student',
-      'desc': 'Backend development in Python...',
-      'loc': 'Kenya/Remote',
-      'dur': '12 weeks',
-      'sal': 'Paid',
-      'tags': '#CS #Coding',
-    },
-    {
-      'company': 'Dashen Bank',
-      'image': 'assets/images/dashen.jpg',
-      'title': 'UX/UI Design',
-      'desc': 'Improve mobile banking interface...',
-      'loc': 'Addis Ababa',
-      'dur': '2 months',
-      'sal': 'Stipend',
-      'tags': '#Design #Fintech',
-    },
-    {
-      'company': 'ZayRide',
-      'image': 'assets/images/ride.jpg',
-      'title': 'Data Analyst',
-      'desc': 'Optimize driver dispatch routes...',
-      'loc': 'Addis Ababa',
-      'dur': '4 months',
-      'sal': 'Paid',
-      'tags': '#Data #Startup',
-    },
-  ];
+class _InternshipCard extends ConsumerWidget {
+  final InternshipEntity internship;
+  const _InternshipCard({required this.internship});
 
   @override
-  Widget build(BuildContext context) {
-    return GridView.builder(
-      padding: const EdgeInsets.fromLTRB(12, 16, 12, 100),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        childAspectRatio: 0.78,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
-      ),
-      itemCount: internshipData.length,
-      itemBuilder: (context, index) => _BrowseCard(data: internshipData[index]),
-    );
-  }
-}
-
-// ─────────────────────────────────────────────────────────────────────
-
-class _BrowseCard extends StatelessWidget {
-  final Map<String, String> data;
-  const _BrowseCard({required this.data});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.grey.shade200),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.02),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            data['company']!,
-            style: const TextStyle(
-              color: Colors.black38,
-              fontSize: 10,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: 35,
-                height: 35,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(6),
-                  child: Image.asset(
-                    data['image']!,
-                    fit: BoxFit.cover,
-                    errorBuilder: (c, e, s) => const Icon(
-                      Icons.business,
-                      size: 35,
-                      color: Colors.grey,
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 12),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF087E8B).withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Center(
+                    child: Text(
+                      internship.companyName.isNotEmpty
+                          ? internship.companyName[0].toUpperCase()
+                          : '?',
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF087E8B),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(width: 5),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      data['title']!,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        internship.title,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      data['desc']!,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 9, color: Colors.grey),
-                    ),
-                    const SizedBox(height: 8),
-                    _CompactDetail(
-                      icon: Icons.location_on,
-                      text: data['loc']!,
-                      iconColor: Colors.redAccent,
-                    ),
-                    const SizedBox(height: 2),
-                    _CompactDetail(
-                      icon: Icons.access_time,
-                      text: data['dur']!,
-                      iconColor: Colors.orange,
-                    ),
-                  ],
+                      Text(
+                        internship.companyName,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const Spacer(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${data['tags']}',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 8, color: Colors.black38),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF087E8B).withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    internship.type,
+                    style: const TextStyle(
+                      fontSize: 10,
+                      color: Color(0xFF087E8B),
                     ),
-                    const SizedBox(height: 2),
-                    const Text(
-                      'Posted Apr 8',
-                      style: TextStyle(fontSize: 8, color: Colors.black38),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 26,
-                child: ElevatedButton(
+              ],
+            ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                const Icon(Icons.location_on, size: 12, color: Colors.grey),
+                const SizedBox(width: 4),
+                Text(
+                  internship.location,
+                  style: const TextStyle(fontSize: 12, color: Colors.grey),
+                ),
+                const Spacer(),
+                if (internship.deadline != null)
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.calendar_today,
+                        size: 12,
+                        color: Colors.grey,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        'Deadline: ${internship.deadline}',
+                        style: const TextStyle(
+                          fontSize: 10,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => InternshipDetailsPage(data: data),
+                        builder: (_) =>
+                            InternshipDetailsPage(internship: internship),
                       ),
                     );
                   },
+                  child: const Text(
+                    'Read more',
+                    style: TextStyle(color: Color(0xFF087E8B)),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                ElevatedButton(
+                  onPressed: () async {
+                    final success = await ref
+                        .read(applicationNotifierProvider.notifier)
+                        .apply(internship.id);
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            success ? 'Applied!' : 'Failed or already applied',
+                          ),
+                          backgroundColor: success ? Colors.green : Colors.red,
+                        ),
+                      );
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF087E8B),
-                    foregroundColor: Colors.white,
-                    elevation: 0,
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6),
-                    ),
                   ),
-                  child: const Text(
-                    "Apply now",
-                    style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold),
-                  ),
+                  child: const Text('Apply'),
                 ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-// ──────────────────────────────────────────────────────────
-
-class _CategoryFilterDropdown extends StatefulWidget {
-  const _CategoryFilterDropdown();
-
-  @override
-  State<_CategoryFilterDropdown> createState() =>
-      _CategoryFilterDropdownState();
-}
-
-class _CategoryFilterDropdownState extends State<_CategoryFilterDropdown> {
-  String selectedFilter = 'Category';
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 38,
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: PopupMenuButton<String>(
-        offset: const Offset(0, 42),
-        onSelected: (String value) {
-          setState(() => selectedFilter = value);
-        },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Text(
-                selectedFilter,
-                style: const TextStyle(
-                  fontSize: 11,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF011627),
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            const Icon(
-              Icons.keyboard_arrow_down,
-              size: 16,
-              color: Color(0xFF011627),
-            ),
-          ],
-        ),
-        itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-          const PopupMenuItem<String>(
-            value: 'Name',
-            child: Text('Filter by Name'),
-          ),
-          const PopupMenuItem<String>(
-            value: 'Date',
-            child: Text('Filter by Date'),
-          ),
-          const PopupMenuItem<String>(
-            value: 'Type',
-            child: Text('Filter by Type'),
-          ),
-          const PopupMenuItem<String>(
-            value: 'Location',
-            child: Text('Filter by Location'),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-//───────────────────────────────────────────────────────
-class _CompactDetail extends StatelessWidget {
-  final IconData icon;
-  final String text;
-  final Color iconColor;
-
-  const _CompactDetail({
-    required this.icon,
-    required this.text,
-    required this.iconColor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(icon, size: 12, color: iconColor),
-        const SizedBox(width: 4),
-        Text(
-          text,
-          style: const TextStyle(fontSize: 10, color: Colors.black54),
-        ),
-      ],
-    );
-  }
-}
-
-// ───────────────────────────────────────────────────────────
-
-class _BottomNavBar extends StatelessWidget {
-  const _BottomNavBar();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
-      child: Container(
-        height: 64,
-        decoration: BoxDecoration(
-          color: const Color(0xFF087E8B),
-          borderRadius: BorderRadius.circular(32),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.18),
-              blurRadius: 14,
-              offset: const Offset(0, 6),
-            ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            // active tab indicator
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.white, width: 2),
-              ),
-              child: const Icon(
-                Icons.grid_view_rounded,
-                color: Colors.white,
-                size: 24,
-              ),
-            ),
-            IconButton(
-              icon: const Icon(
-                Icons.home_outlined,
-                color: Colors.white,
-                size: 28,
-              ),
-              onPressed: () => context.pushNamed('student_home'),
-            ),
-            IconButton(
-              icon: const Icon(
-                Icons.people_alt_rounded,
-                color: Colors.white,
-                size: 28,
-              ),
-              onPressed: () => context.pushNamed('profile'),
+              ],
             ),
           ],
         ),

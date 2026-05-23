@@ -128,16 +128,46 @@ The backend system handles:
 
 ---
 
-##  Setup Instructions
+## Setup Instructions
 
-### 1. Start Backend
-- Ensure your local server is running  
-- Make sure the database is connected  
+### Prerequisites
+- Flutter SDK (3.0+)
+- Node.js (18+)
+- Android Studio / VS Code (for mobile)
 
-### 2. Configure API
-- Set the API base URL in the Flutter app to your local machine IP  
+---
 
-### 3. Run the App
+## Quick Setup
+
+### 1. Backend Setup
+
 ```bash
+cd backend
+npm install
+npm run dev
+
+Keep this terminal running!
+
+### 2. Flutter Setup (New Terminal)
+
+```bash
+cd ..
 flutter pub get
 flutter run
+
+## Platform Options
+
+| Platform | Command |
+|----------|---------|
+| Chrome (Web) | `flutter run -d chrome` |
+| Android Emulator | `flutter run -d android` |
+| Physical Phone | `adb reverse tcp:3000 tcp:3000` then `flutter run` |
+
+---
+
+## Physical Phone Setup
+
+1. Enable USB Debugging on phone
+2. Connect via USB
+3. Run: `adb reverse tcp:3000 tcp:3000`
+4. Run: `flutter run`

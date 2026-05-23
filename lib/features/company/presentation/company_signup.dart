@@ -1,67 +1,123 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../../core/widgets/text/split_action_text.dart';
 import '../../../core/widgets/logo/carliet_logo.dart';
 import '../../../core/widgets/text/app_title.dart';
 import '../../../core/widgets/buttons/filled_btn.dart';
 import '../../../core/widgets/text/auth_subtitel.dart';
 import '../../../core/widgets/input/input_field.dart';
+import '../../auth/application/auth_notifier.dart';
 
-class CompanySignup extends StatefulWidget {
+class CompanySignup extends ConsumerStatefulWidget {
   const CompanySignup({super.key});
 
   @override
-  State<CompanySignup> createState() => _CompanySignupState();
+  ConsumerState<CompanySignup> createState() => _CompanySignupState();
 }
 
-class _CompanySignupState extends State<CompanySignup> {
+class _CompanySignupState extends ConsumerState<CompanySignup> {
   bool _agreedToTerms = false;
+  bool _isLoading = false;
+  final _companyNameCtrl = TextEditingController();
+  final _emailCtrl = TextEditingController();
+  final _passwordCtrl = TextEditingController();
+  final _confirmPassCtrl = TextEditingController();
 
-  void _onCreateAccountPressed(BuildContext context) {
-    if (_agreedToTerms) {
-      context.pushNamed('company_profile_setup');
-    } else {
+  Future<void> _onCreateAccountPressed() async {
+    if (!_agreedToTerms) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Please agree to Terms and Policy first'),
           backgroundColor: Colors.red,
         ),
       );
+      return;
+    }
+    if (_passwordCtrl.text != _confirmPassCtrl.text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Passwords do not match.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+    if (_passwordCtrl.text.length < 6) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Password must be at least 6 characters.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    setState(() => _isLoading = true);
+    try {
+      await ref
+          .read(authNotifierProvider.notifier)
+          .signup(
+            email: _emailCtrl.text.trim(),
+            password: _passwordCtrl.text,
+            role: 'company',
+            companyName: _companyNameCtrl.text.trim(),
+          );
+      if (mounted) {
+        context.pushNamed('company_profile_setup');
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(e.toString().replaceFirst('Exception: ', '')),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      setState(() => _isLoading = false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    return Center(
-      child: Scaffold(
-        body: SingleChildScrollView(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Column(
             children: [
               const SizedBox(height: 55),
-              const Header(),
+              const _Header(),
               SizedBox(height: screenHeight * 0.03),
               const AuthSubtitle(text: 'Create a new account', fontSize: 24),
               SizedBox(height: screenHeight * 0.03),
-              const InputField(
+              InputField(
                 label: 'Company Name',
                 hintText: 'Enter your company name',
+                controller: _companyNameCtrl,
               ),
               const SizedBox(height: 15),
-              const InputField(
+              InputField(
                 label: 'Email',
                 hintText: 'Enter your email',
+                controller: _emailCtrl,
               ),
               const SizedBox(height: 15),
-              const InputField(
+              InputField(
                 label: 'Password',
                 hintText: 'Enter your password',
+                obscureText: true,
+                controller: _passwordCtrl,
               ),
               const SizedBox(height: 15),
-              const InputField(
+              InputField(
                 label: 'Re-enter your Password',
                 hintText: 'Re-enter your password',
+                obscureText: true,
+                controller: _confirmPassCtrl,
               ),
               const SizedBox(height: 30),
               Row(
@@ -70,11 +126,8 @@ class _CompanySignupState extends State<CompanySignup> {
                   Checkbox(
                     value: _agreedToTerms,
                     activeColor: const Color(0xFF087E8B),
-                    onChanged: (value) {
-                      setState(() {
-                        _agreedToTerms = value ?? false;
-                      });
-                    },
+                    onChanged: (value) =>
+                        setState(() => _agreedToTerms = value ?? false),
                   ),
                   GestureDetector(
                     onTap: () => context.pushNamed('terms'),
@@ -85,13 +138,13 @@ class _CompanySignupState extends State<CompanySignup> {
                   ),
                 ],
               ),
-
               const SizedBox(height: 10),
-              FilledBtn(
-                text: 'Create account',
-                onPressed: () => _onCreateAccountPressed(context),
-              ),
-
+              _isLoading
+                  ? const CircularProgressIndicator(color: Color(0xFF087E8B))
+                  : FilledBtn(
+                      text: 'Create account',
+                      onPressed: _onCreateAccountPressed,
+                    ),
               const SizedBox(height: 10),
               GestureDetector(
                 onTap: () => context.pushNamed('company_signin'),
@@ -100,7 +153,6 @@ class _CompanySignupState extends State<CompanySignup> {
                   actionText: "Login",
                 ),
               ),
-
               const SizedBox(height: 80),
             ],
           ),
@@ -110,10 +162,8 @@ class _CompanySignupState extends State<CompanySignup> {
   }
 }
 
-//─────────────────────────────────────────────────────────────────
-class Header extends StatelessWidget {
-  const Header({super.key});
-
+class _Header extends StatelessWidget {
+  const _Header();
   @override
   Widget build(BuildContext context) {
     return const Padding(

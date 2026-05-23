@@ -1,12 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:carli_et/core/widgets/buttons/filled_btn.dart';
+import '../../../core/widgets/buttons/filled_btn.dart';
+import '../../../core/widgets/logo/carliet_logo.dart';
+import '../../auth/application/auth_notifier.dart';
+import '../application/company_profile_provider.dart';
 
-class CompanyProfile extends StatelessWidget {
+class CompanyProfile extends ConsumerWidget {
   const CompanyProfile({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final profileData = ref.watch(companyProfileProvider);
+    final authState = ref.watch(authNotifierProvider);
+    final user = authState.value;
+
+    final companyName =
+        profileData['company_name'] ?? user?.fullName ?? 'Company Name';
+    final industry = profileData['industry'] ?? 'Not specified';
+    final location = profileData['location'] ?? 'Not specified';
+    final description =
+        profileData['description'] ?? 'No description provided.';
+    final email = user?.email ?? 'No email';
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -21,6 +37,11 @@ class CompanyProfile extends StatelessWidget {
                 'assets/images/logo.png',
                 height: 45,
                 color: const Color(0xFF087E8B),
+                errorBuilder: (_, __, ___) => const Icon(
+                  Icons.business,
+                  color: Color(0xFF087E8B),
+                  size: 40,
+                ),
               ),
               const SizedBox(width: 8),
               RichText(
@@ -65,14 +86,10 @@ class CompanyProfile extends StatelessWidget {
                 ),
               ],
             ),
-
             const SizedBox(height: 24),
-
-            //company logo and info 
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // logo box
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -81,7 +98,6 @@ class CompanyProfile extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: Colors.black87,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -89,145 +105,183 @@ class CompanyProfile extends StatelessWidget {
                       width: 110,
                       height: 110,
                       decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(8),
+                        color: const Color(0xFF087E8B).withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Center(
+                        child: Text(
+                          companyName.isNotEmpty
+                              ? companyName[0].toUpperCase()
+                              : 'C',
+                          style: const TextStyle(
+                            fontSize: 48,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF087E8B),
+                          ),
+                        ),
                       ),
                     ),
                   ],
                 ),
-
-                const SizedBox(width: 10),
-
-                // Company detail
-                const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 28),
-                    Text(
-                      'Ethio Telecom',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 28),
+                      Text(
+                        companyName,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Text(
-                          'Industry: ',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black87,
+                      const SizedBox(height: 8),
+                      Text(
+                        email,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          const Text(
+                            'Industry: ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
                           ),
-                        ),
-                        Text(
-                          'Telecommunication',
-                          style: TextStyle(fontSize: 14, color: Colors.black54),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 6),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Location : ',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black87,
+                          Text(
+                            industry,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey,
+                            ),
                           ),
-                        ),
-                        Text(
-                          'Addis Ababa,\nEthiopia',
-                          style: TextStyle(fontSize: 14, color: Colors.black54),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                      const SizedBox(height: 6),
+                      Row(
+                        children: [
+                          const Text(
+                            'Location: ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
+                          Text(
+                            location,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-
-            const SizedBox(height: 60),
+            const SizedBox(height: 24),
             const Text(
               'Description',
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.black87,
+                color: Color(0xFF087E8B),
               ),
             ),
-
-            const SizedBox(height: 12),
-
-            const Text(
-              'Ethio Telecom is the national telecommunications provider of Ethiopia, delivering mobile, internet, and fixed-line services across the country. The company focuses on expanding digital connectivity, improving network infrastructure, and supporting innovation through technology and communication services.',
-              style: TextStyle(
+            const SizedBox(height: 8),
+            Text(
+              description,
+              style: const TextStyle(
                 fontSize: 14,
-                color: Colors.black54,
-                height: 1.6,
+                color: Colors.black87,
+                height: 1.5,
               ),
             ),
             const SizedBox(height: 300),
-
-            //logout delete button
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
                   width: 130,
                   child: OutlinedButton(
-                    onPressed: () => context.pushNamed('home'),
+                    onPressed: () async {
+                      await ref.read(authNotifierProvider.notifier).logout();
+                      if (context.mounted) context.goNamed('home');
+                    },
                     style: OutlinedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: const Color(0xFF087E8B),
-                      side: const BorderSide(
-                        color: Color(0xFF087E8B),
-                        width: 1,
-                      ),
-                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      side: const BorderSide(color: Color(0xFF087E8B)),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
                     ),
-                    child: const Text('Logout', style: TextStyle(fontSize: 16)),
+                    child: const Text(
+                      'Logout',
+                      style: TextStyle(color: Color(0xFF087E8B)),
+                    ),
                   ),
                 ),
-
                 const SizedBox(width: 16),
-
-                // delete Account button
                 SizedBox(
                   width: 150,
                   child: OutlinedButton(
-                    onPressed: () => context.pushNamed('home'),
+                    onPressed: () async {
+                      final confirm = await showDialog<bool>(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                          title: const Text('Delete Account'),
+                          content: const Text(
+                            'Are you sure? This cannot be undone.',
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(ctx, false),
+                              child: const Text('Cancel'),
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.pop(ctx, true),
+                              child: const Text(
+                                'Delete',
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                      if (confirm == true) {
+                        await ref
+                            .read(authNotifierProvider.notifier)
+                            .deleteAccount();
+                        if (context.mounted) context.goNamed('home');
+                      }
+                    },
                     style: OutlinedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: Colors.red,
-                      side: const BorderSide(color: Colors.red, width: 1),
-                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      side: const BorderSide(color: Colors.red),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
                     ),
                     child: const Text(
-                      'Delete account',
-                      style: TextStyle(fontSize: 16),
+                      'Delete Account',
+                      style: TextStyle(color: Colors.red),
                     ),
                   ),
                 ),
               ],
             ),
-
             const SizedBox(height: 20),
           ],
         ),
       ),
-
-      // bottom nav bar 
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
         child: Container(
@@ -235,18 +289,10 @@ class CompanyProfile extends StatelessWidget {
           decoration: BoxDecoration(
             color: const Color(0xFF087E8B),
             borderRadius: BorderRadius.circular(40),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                blurRadius: 12,
-                offset: const Offset(0, 4),
-              ),
-            ],
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              // left Icon
               IconButton(
                 icon: const Icon(
                   Icons.people_outline,
@@ -255,8 +301,6 @@ class CompanyProfile extends StatelessWidget {
                 ),
                 onPressed: () => context.pushNamed('view_applicants'),
               ),
-
-              // middle icon
               IconButton(
                 icon: const Icon(
                   Icons.home_outlined,
@@ -265,23 +309,16 @@ class CompanyProfile extends StatelessWidget {
                 ),
                 onPressed: () => context.pushNamed('company_home'),
               ),
-
-              // right icon
-              GestureDetector(
-                onTap: () => context.pushNamed('company_profile'),
-                child: Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white, width: 2),
-                  ),
-                  child: const Icon(
-                    Icons.bar_chart_outlined,
-                    color: Colors.white,
-                    size: 28,
-                  ),
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white, width: 2),
+                ),
+                child: const Icon(
+                  Icons.bar_chart_outlined,
+                  color: Colors.white,
+                  size: 28,
                 ),
               ),
             ],
