@@ -47,8 +47,7 @@ CarLi_Et serves as a central hub where:
 ##  Features
 
 ### 1. Authentication & Authorization
-- Secure user registration and login  
-- University-based credential validation (using university email)  
+- Secure user registration and login   
 - Role-based access:
   - **Students** - Apply & track internships  
   - **Organizations** - Post & manage internships  
